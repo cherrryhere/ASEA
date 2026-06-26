@@ -2,25 +2,21 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import { inspectWebsite } from "./agents/browserAgent.js";
-
-console.log("STEP 1: server.js file started");
+import { generateInspectionReport } from "./agents/reportAgent.js";
+import { generateExcelReport } from "./agents/excelReportAgent.js";
 
 dotenv.config();
-
-console.log("STEP 2: dotenv loaded");
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-console.log("STEP 3: express app created");
-
 app.get("/", (req, res) => {
   res.json({
     success: true,
     message: "ASEA Agent Backend is running",
-    version: "1.0.0"
+    version: "1.1.0"
   });
 });
 
@@ -35,12 +31,20 @@ app.post("/inspect", async (req, res) => {
       });
     }
 
-    const result = await inspectWebsite(websiteUrl);
+    const knowledge = await inspectWebsite(websiteUrl);
+    const markdownReport = await generateInspectionReport(knowledge);
+    const excelReport = await generateExcelReport(knowledge);
 
     return res.json({
       success: true,
-      message: "Website inspected successfully",
-      data: result
+      message: "Website inspected and reports generated successfully",
+      data: {
+        knowledge,
+        reports: {
+          markdown: markdownReport,
+          excel: excelReport
+        }
+      }
     });
   } catch (error) {
     console.error("Inspect API Error:", error);
@@ -55,11 +59,10 @@ app.post("/inspect", async (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 
-console.log("STEP 4: Port selected:", PORT);
-
 app.listen(PORT, () => {
   console.log("====================================");
   console.log("🚀 ASEA Agent Backend Started");
   console.log(`🌐 URL: http://localhost:${PORT}`);
+  console.log("📊 Excel report generation enabled");
   console.log("====================================");
 });
