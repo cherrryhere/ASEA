@@ -1,0 +1,19 @@
+{
+  "watch": [
+    "server.js",
+    "agents",
+    "config",
+    "tools",
+    "utils"
+  ],
+  "ext": "js,json",
+  "ignore": [
+    "node_modules",
+    "storage",
+    "reports",
+    "screenshots",
+    "tests",
+    "**/*.xlsx",
+    "**/*.md"
+  ]
+}

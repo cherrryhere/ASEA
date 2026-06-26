@@ -1,0 +1,25 @@
+{
+  "websites": [
+    {
+      "websiteUrl": "https://example.com",
+      "currentUrl": "https://example.com/",
+      "pageTitle": "Example Domain",
+      "screenshotPath": "screenshots/home-190adc1e-7bee-4b94-b125-310bfe415932.png",
+      "totalElements": 1,
+      "elements": [
+        {
+          "tag": "a",
+          "text": "Learn more",
+          "placeholder": "",
+          "type": "",
+          "name": "",
+          "id": "",
+          "className": "",
+          "ariaLabel": "",
+          "href": "https://iana.org/domains/example"
+        }
+      ],
+      "inspectedAt": "2026-06-26T17:12:09.430Z"
+    }
+  ]
+}
