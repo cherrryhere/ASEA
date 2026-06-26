@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import { inspectWebsite } from "./agents/browserAgent.js";
 import { generateInspectionReport } from "./agents/reportAgent.js";
 import { generateExcelReport } from "./agents/excelReportAgent.js";
+import { generateEngineeringPlan } from "./agents/plannerAgent.js";
 
 dotenv.config();
 
@@ -16,7 +17,7 @@ app.get("/", (req, res) => {
   res.json({
     success: true,
     message: "ASEA Agent Backend is running",
-    version: "1.1.0"
+    version: "1.2.0"
   });
 });
 
@@ -57,12 +58,47 @@ app.post("/inspect", async (req, res) => {
   }
 });
 
+app.post("/plan", async (req, res) => {
+  try {
+    const { command, websiteUrl } = req.body;
+
+    if (!command || !websiteUrl) {
+      return res.status(400).json({
+        success: false,
+        message: "command and websiteUrl are required"
+      });
+    }
+
+    const knowledge = await inspectWebsite(websiteUrl);
+    const plan = await generateEngineeringPlan(command, knowledge);
+
+    return res.json({
+      success: true,
+      message: "AI engineering plan generated successfully",
+      data: {
+        command,
+        websiteUrl,
+        knowledge,
+        plan
+      }
+    });
+  } catch (error) {
+    console.error("Planner API Error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "AI engineering plan generation failed",
+      error: error.message
+    });
+  }
+});
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
   console.log("====================================");
   console.log("🚀 ASEA Agent Backend Started");
   console.log(`🌐 URL: http://localhost:${PORT}`);
-  console.log("📊 Excel report generation enabled");
+  console.log("🧠 Groq Planner Agent enabled");
   console.log("====================================");
 });
