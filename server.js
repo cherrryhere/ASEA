@@ -9,6 +9,8 @@ import { generateAIPlanReports } from "./agents/aiPlanReportAgent.js";
 import { discoverFeatures } from "./agents/featureDiscoveryAgent.js";
 import { generateFeatureReports } from "./agents/featureReportAgent.js";
 import { discoverFeaturesWithAI } from "./agents/aiFeatureDiscoveryAgent.js";
+import { generateTestCasesFromFeatures } from "./agents/testGeneratorAgent.js";
+import { generateTestCaseReports } from "./agents/testCaseReportAgent.js";
 
 dotenv.config();
 
@@ -21,7 +23,7 @@ app.get("/", (req, res) => {
   res.json({
     success: true,
     message: "ASEA Agent Backend is running",
-    version: "1.5.0"
+    version: "1.6.0"
   });
 });
 
@@ -177,6 +179,44 @@ app.post("/ai-discover-features", async (req, res) => {
   }
 });
 
+app.post("/generate-test-cases", async (req, res) => {
+  try {
+    const { websiteUrl } = req.body;
+
+    if (!websiteUrl) {
+      return res.status(400).json({
+        success: false,
+        message: "websiteUrl is required"
+      });
+    }
+
+    const knowledge = await inspectWebsite(websiteUrl);
+    const featureDiscovery = await discoverFeaturesWithAI(knowledge);
+    const testCases = await generateTestCasesFromFeatures(featureDiscovery);
+    const reports = await generateTestCaseReports(testCases);
+
+    return res.json({
+      success: true,
+      message: "Test cases generated and reports created successfully",
+      data: {
+        websiteUrl,
+        knowledge,
+        featureDiscovery,
+        testCases,
+        reports
+      }
+    });
+  } catch (error) {
+    console.error("Test Case Generation API Error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Test case generation failed",
+      error: error.message
+    });
+  }
+});
+
 const PORT = process.env.PORT || 5050;
 
 app.listen(PORT, () => {
@@ -187,5 +227,6 @@ app.listen(PORT, () => {
   console.log("📊 AI Plan Reports enabled");
   console.log("🔎 Rule-Based Feature Discovery enabled");
   console.log("🤖 AI Feature Discovery enabled");
+  console.log("🧪 Test Case Generator enabled");
   console.log("====================================");
 });

@@ -1,6 +1,6 @@
 {
   "name": "asea-agent",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "ASEA - Autonomous Software Engineering Agent",
   "type": "module",
   "main": "server.js",
@@ -19,7 +19,8 @@
     "Excel Reports",
     "AI Planning",
     "Feature Discovery",
-    "AI Feature Discovery"
+    "AI Feature Discovery",
+    "Test Case Generation"
   ],
   "author": "Suraaj Gibs",
   "license": "MIT",

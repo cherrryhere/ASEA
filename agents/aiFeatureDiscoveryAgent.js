@@ -39,8 +39,7 @@ You are ASEA, an Autonomous Software Engineering Agent.
 
 Your task is to analyze extracted UI elements from a webpage and identify the actual software features present on the page.
 
-Do not only classify by HTML tag.
-Think like a QA engineer and software tester.
+Think like a senior QA engineer.
 
 Website Information:
 ${JSON.stringify(
@@ -95,9 +94,9 @@ Return ONLY valid JSON in this exact structure:
 
 Rules:
 - priority must be one of: "Critical", "High", "Medium", "Low"
-- elements should contain only relevant UI elements for that feature
+- elements should contain only UI elements relevant to that feature
 - possibleTests should be practical QA test ideas
-- If the page is mostly static, still identify it as Static Content
+- If the page is mostly static, identify it as Static Content
 `;
 
   const response = await groq.chat.completions.create({
@@ -108,7 +107,7 @@ Rules:
         content: prompt
       }
     ],
-    temperature: 0.2
+    temperature: groqConfig.temperature
   });
 
   const content = response.choices[0].message.content;
