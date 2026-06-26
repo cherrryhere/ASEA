@@ -1,25 +1,69 @@
 {
   "websites": [
     {
-      "websiteUrl": "https://example.com",
-      "currentUrl": "https://example.com/",
-      "pageTitle": "Example Domain",
-      "screenshotPath": "screenshots/home-190adc1e-7bee-4b94-b125-310bfe415932.png",
-      "totalElements": 1,
+      "websiteUrl": "https://the-internet.herokuapp.com/login",
+      "currentUrl": "https://the-internet.herokuapp.com/login",
+      "pageTitle": "The Internet",
+      "screenshotPath": "screenshots/home-09d8dffe-3b25-4014-96f8-68dee7a54d07.png",
+      "totalElements": 5,
       "elements": [
         {
+          "tag": "button",
+          "text": "Login",
+          "placeholder": "",
+          "type": "submit",
+          "name": "",
+          "id": "",
+          "className": "radius",
+          "ariaLabel": "",
+          "href": ""
+        },
+        {
           "tag": "a",
-          "text": "Learn more",
+          "text": "",
           "placeholder": "",
           "type": "",
           "name": "",
           "id": "",
           "className": "",
           "ariaLabel": "",
-          "href": "https://iana.org/domains/example"
+          "href": "https://github.com/tourdedave/the-internet"
+        },
+        {
+          "tag": "a",
+          "text": "Elemental Selenium",
+          "placeholder": "",
+          "type": "",
+          "name": "",
+          "id": "",
+          "className": "",
+          "ariaLabel": "",
+          "href": "http://elementalselenium.com/"
+        },
+        {
+          "tag": "input",
+          "text": "",
+          "placeholder": "",
+          "type": "text",
+          "name": "username",
+          "id": "username",
+          "className": "",
+          "ariaLabel": "",
+          "href": ""
+        },
+        {
+          "tag": "input",
+          "text": "",
+          "placeholder": "",
+          "type": "password",
+          "name": "password",
+          "id": "password",
+          "className": "",
+          "ariaLabel": "",
+          "href": ""
         }
       ],
-      "inspectedAt": "2026-06-26T17:12:09.430Z"
+      "inspectedAt": "2026-06-26T17:28:15.528Z"
     }
   ]
 }
