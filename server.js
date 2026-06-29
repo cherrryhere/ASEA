@@ -19,6 +19,8 @@ import { analyzeTestFailures } from "./agents/failureAnalysisAgent.js";
 import { generateFailureAnalysisReports } from "./agents/failureAnalysisReportAgent.js";
 import { repairGeneratedTests } from "./agents/testRepairAgent.js";
 import { generateTestRepairReports } from "./agents/testRepairReportAgent.js";
+import { validateRepairResults } from "./agents/repairValidationAgent.js";
+import { generateRepairValidationReports } from "./agents/repairValidationReportAgent.js";
 
 dotenv.config();
 
@@ -31,7 +33,7 @@ app.get("/", (req, res) => {
   res.json({
     success: true,
     message: "ASEA Agent Backend is running",
-    version: "1.9.0"
+    version: "2.2.0"
   });
 });
 
@@ -320,25 +322,6 @@ app.post("/run-autonomous-qa", async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 5050;
-
-app.listen(PORT, () => {
-  console.log("====================================");
-  console.log(" ASEA Agent Backend Started");
-  console.log(` URL: http://localhost:${PORT}`);
-  console.log(" Groq Planner Agent enabled");
-  console.log(" AI Plan Reports enabled");
-  console.log(" Rule-Based Feature Discovery enabled");
-  console.log(" AI Feature Discovery enabled");
-  console.log(" Test Case Generator enabled");
-  console.log(" Playwright Test Script Generator enabled");
-  console.log(" Test Executor Agent enabled");
-  console.log(" Autonomous QA Pipeline enabled");
-  console.log("====================================");
-  console.log(" Failure Analysis Agent enabled");
-  console.log(" Self-Healing Test Repair Agent enabled");
-});
-
 app.post("/analyze-test-failures", async (req, res) => {
   try {
     const executionData = await executeGeneratedTests();
@@ -364,6 +347,7 @@ app.post("/analyze-test-failures", async (req, res) => {
     });
   }
 });
+
 app.post("/repair-generated-tests", async (req, res) => {
   try {
     const executionData = await executeGeneratedTests();
@@ -395,4 +379,48 @@ app.post("/repair-generated-tests", async (req, res) => {
       error: error.message
     });
   }
+});
+
+app.post("/validate-repair", async (req, res) => {
+  try {
+    const validationData = await validateRepairResults();
+    const reports = await generateRepairValidationReports(validationData);
+
+    return res.json({
+      success: true,
+      message: "Repair validation completed and reports generated successfully",
+      data: {
+        validationData,
+        reports
+      }
+    });
+  } catch (error) {
+    console.error("Repair Validation API Error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Repair validation failed",
+      error: error.message
+    });
+  }
+});
+
+const PORT = process.env.PORT || 5050;
+
+app.listen(PORT, () => {
+  console.log("====================================");
+  console.log("🚀 ASEA Agent Backend Started");
+  console.log(`🌐 URL: http://localhost:${PORT}`);
+  console.log("🧠 Groq Planner Agent enabled");
+  console.log("📊 AI Plan Reports enabled");
+  console.log("🔎 Rule-Based Feature Discovery enabled");
+  console.log("🤖 AI Feature Discovery enabled");
+  console.log("🧪 Test Case Generator enabled");
+  console.log("🎭 Playwright Test Script Generator enabled");
+  console.log("✅ Test Executor Agent enabled");
+  console.log("🚀 Autonomous QA Pipeline enabled");
+  console.log("🧠 Failure Analysis Agent enabled");
+  console.log("🛠️ Self-Healing Test Repair Agent enabled");
+  console.log("📈 Repair Validation Agent enabled");
+  console.log("====================================");
 });

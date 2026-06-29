@@ -1,6 +1,6 @@
 {
   "name": "asea-agent",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "ASEA - Autonomous Software Engineering Agent",
   "type": "module",
   "main": "server.js",
@@ -9,7 +9,8 @@
     "start": "node server.js",
     "test:generated": "npx playwright test tests/generated",
     "test:generated:json": "npx playwright test tests/generated --reporter=json",
-    "test:repaired": "npx playwright test tests/repaired"
+    "test:repaired": "npx playwright test tests/repaired",
+    "test:repaired:json": "npx playwright test tests/repaired --reporter=json"
   },
   "keywords": [
     "AI",
@@ -28,7 +29,8 @@
     "Test Execution",
     "Autonomous QA",
     "Failure Analysis",
-    "Self Healing Tests"
+    "Self Healing Tests",
+    "Repair Validation"
   ],
   "author": "Suraaj Gibs",
   "license": "MIT",
