@@ -21,6 +21,11 @@ import { repairGeneratedTests } from "./agents/testRepairAgent.js";
 import { generateTestRepairReports } from "./agents/testRepairReportAgent.js";
 import { validateRepairResults } from "./agents/repairValidationAgent.js";
 import { generateRepairValidationReports } from "./agents/repairValidationReportAgent.js";
+import {
+  getQARunHistory,
+  getLatestQARun,
+  clearQARunHistory
+} from "./agents/qaRunHistoryAgent.js";
 
 dotenv.config();
 
@@ -33,7 +38,7 @@ app.get("/", (req, res) => {
   res.json({
     success: true,
     message: "ASEA Agent Backend is running",
-    version: "2.2.0"
+    version: "2.3.0"
   });
 });
 
@@ -405,6 +410,66 @@ app.post("/validate-repair", async (req, res) => {
   }
 });
 
+app.get("/qa-run-history", async (req, res) => {
+  try {
+    const history = await getQARunHistory();
+
+    return res.json({
+      success: true,
+      message: "QA run history fetched successfully",
+      data: history
+    });
+  } catch (error) {
+    console.error("QA Run History API Error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch QA run history",
+      error: error.message
+    });
+  }
+});
+
+app.get("/qa-run-history/latest", async (req, res) => {
+  try {
+    const latestRun = await getLatestQARun();
+
+    return res.json({
+      success: true,
+      message: "Latest QA run fetched successfully",
+      data: latestRun
+    });
+  } catch (error) {
+    console.error("Latest QA Run API Error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch latest QA run",
+      error: error.message
+    });
+  }
+});
+
+app.delete("/qa-run-history", async (req, res) => {
+  try {
+    const result = await clearQARunHistory();
+
+    return res.json({
+      success: true,
+      message: "QA run history cleared successfully",
+      data: result
+    });
+  } catch (error) {
+    console.error("Clear QA Run History API Error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to clear QA run history",
+      error: error.message
+    });
+  }
+});
+
 const PORT = process.env.PORT || 5050;
 
 app.listen(PORT, () => {
@@ -422,5 +487,6 @@ app.listen(PORT, () => {
   console.log("🧠 Failure Analysis Agent enabled");
   console.log("🛠️ Self-Healing Test Repair Agent enabled");
   console.log("📈 Repair Validation Agent enabled");
+  console.log("🗂️ QA Run History Agent enabled");
   console.log("====================================");
 });

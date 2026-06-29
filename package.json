@@ -1,6 +1,6 @@
 {
   "name": "asea-agent",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "ASEA - Autonomous Software Engineering Agent",
   "type": "module",
   "main": "server.js",
@@ -30,7 +30,8 @@
     "Autonomous QA",
     "Failure Analysis",
     "Self Healing Tests",
-    "Repair Validation"
+    "Repair Validation",
+    "QA Run History"
   ],
   "author": "Suraaj Gibs",
   "license": "MIT",
