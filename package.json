@@ -1,6 +1,6 @@
 {
   "name": "asea-agent",
-  "version": "1.8.0",
+  "version": "1.9.0",
   "description": "ASEA - Autonomous Software Engineering Agent",
   "type": "module",
   "main": "server.js",
@@ -24,7 +24,8 @@
     "AI Feature Discovery",
     "Test Case Generation",
     "Playwright Test Generation",
-    "Test Execution"
+    "Test Execution",
+    "Autonomous QA"
   ],
   "author": "Suraaj Gibs",
   "license": "MIT",

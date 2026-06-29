@@ -14,6 +14,7 @@ import { generateTestCaseReports } from "./agents/testCaseReportAgent.js";
 import { generatePlaywrightScripts } from "./agents/playwrightTestGeneratorAgent.js";
 import { executeGeneratedTests } from "./agents/testExecutorAgent.js";
 import { generateTestExecutionReports } from "./agents/testExecutionReportAgent.js";
+import { runAutonomousQAPipeline } from "./agents/autonomousQAAgent.js";
 
 dotenv.config();
 
@@ -26,7 +27,7 @@ app.get("/", (req, res) => {
   res.json({
     success: true,
     message: "ASEA Agent Backend is running",
-    version: "1.8.0"
+    version: "1.9.0"
   });
 });
 
@@ -286,6 +287,35 @@ app.post("/execute-generated-tests", async (req, res) => {
   }
 });
 
+app.post("/run-autonomous-qa", async (req, res) => {
+  try {
+    const { websiteUrl } = req.body;
+
+    if (!websiteUrl) {
+      return res.status(400).json({
+        success: false,
+        message: "websiteUrl is required"
+      });
+    }
+
+    const result = await runAutonomousQAPipeline(websiteUrl);
+
+    return res.json({
+      success: true,
+      message: "Autonomous QA pipeline completed successfully",
+      data: result
+    });
+  } catch (error) {
+    console.error("Autonomous QA Pipeline API Error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Autonomous QA pipeline failed",
+      error: error.message
+    });
+  }
+});
+
 const PORT = process.env.PORT || 5050;
 
 app.listen(PORT, () => {
@@ -299,5 +329,6 @@ app.listen(PORT, () => {
   console.log("🧪 Test Case Generator enabled");
   console.log("🎭 Playwright Test Script Generator enabled");
   console.log("✅ Test Executor Agent enabled");
+  console.log("🚀 Autonomous QA Pipeline enabled");
   console.log("====================================");
 });
