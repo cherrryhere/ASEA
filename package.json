@@ -1,13 +1,14 @@
 {
   "name": "asea-agent",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "description": "ASEA - Autonomous Software Engineering Agent",
   "type": "module",
   "main": "server.js",
   "scripts": {
     "dev": "nodemon server.js",
     "start": "node server.js",
-    "test:generated": "npx playwright test tests/generated"
+    "test:generated": "npx playwright test tests/generated",
+    "test:generated:json": "npx playwright test tests/generated --reporter=json"
   },
   "keywords": [
     "AI",
@@ -22,7 +23,8 @@
     "Feature Discovery",
     "AI Feature Discovery",
     "Test Case Generation",
-    "Playwright Test Generation"
+    "Playwright Test Generation",
+    "Test Execution"
   ],
   "author": "Suraaj Gibs",
   "license": "MIT",

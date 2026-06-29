@@ -12,6 +12,8 @@ import { discoverFeaturesWithAI } from "./agents/aiFeatureDiscoveryAgent.js";
 import { generateTestCasesFromFeatures } from "./agents/testGeneratorAgent.js";
 import { generateTestCaseReports } from "./agents/testCaseReportAgent.js";
 import { generatePlaywrightScripts } from "./agents/playwrightTestGeneratorAgent.js";
+import { executeGeneratedTests } from "./agents/testExecutorAgent.js";
+import { generateTestExecutionReports } from "./agents/testExecutionReportAgent.js";
 
 dotenv.config();
 
@@ -24,7 +26,7 @@ app.get("/", (req, res) => {
   res.json({
     success: true,
     message: "ASEA Agent Backend is running",
-    version: "1.7.0"
+    version: "1.8.0"
   });
 });
 
@@ -260,6 +262,30 @@ app.post("/generate-playwright-tests", async (req, res) => {
   }
 });
 
+app.post("/execute-generated-tests", async (req, res) => {
+  try {
+    const executionData = await executeGeneratedTests();
+    const reports = await generateTestExecutionReports(executionData);
+
+    return res.json({
+      success: true,
+      message: "Generated tests executed and reports created successfully",
+      data: {
+        executionData,
+        reports
+      }
+    });
+  } catch (error) {
+    console.error("Test Execution API Error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Test execution failed",
+      error: error.message
+    });
+  }
+});
+
 const PORT = process.env.PORT || 5050;
 
 app.listen(PORT, () => {
@@ -272,5 +298,6 @@ app.listen(PORT, () => {
   console.log("🤖 AI Feature Discovery enabled");
   console.log("🧪 Test Case Generator enabled");
   console.log("🎭 Playwright Test Script Generator enabled");
+  console.log("✅ Test Executor Agent enabled");
   console.log("====================================");
 });
