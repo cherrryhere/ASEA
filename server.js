@@ -17,6 +17,8 @@ import { generateTestExecutionReports } from "./agents/testExecutionReportAgent.
 import { runAutonomousQAPipeline } from "./agents/autonomousQAAgent.js";
 import { analyzeTestFailures } from "./agents/failureAnalysisAgent.js";
 import { generateFailureAnalysisReports } from "./agents/failureAnalysisReportAgent.js";
+import { repairGeneratedTests } from "./agents/testRepairAgent.js";
+import { generateTestRepairReports } from "./agents/testRepairReportAgent.js";
 
 dotenv.config();
 
@@ -334,6 +336,7 @@ app.listen(PORT, () => {
   console.log(" Autonomous QA Pipeline enabled");
   console.log("====================================");
   console.log(" Failure Analysis Agent enabled");
+  console.log(" Self-Healing Test Repair Agent enabled");
 });
 
 app.post("/analyze-test-failures", async (req, res) => {
@@ -357,6 +360,38 @@ app.post("/analyze-test-failures", async (req, res) => {
     return res.status(500).json({
       success: false,
       message: "Failure analysis failed",
+      error: error.message
+    });
+  }
+});
+app.post("/repair-generated-tests", async (req, res) => {
+  try {
+    const executionData = await executeGeneratedTests();
+    const failureAnalysis = await analyzeTestFailures(executionData);
+
+    const repairData = await repairGeneratedTests({
+      executionData,
+      failureAnalysis
+    });
+
+    const reports = await generateTestRepairReports(repairData);
+
+    return res.json({
+      success: true,
+      message: "Generated tests repaired and reports created successfully",
+      data: {
+        executionData,
+        failureAnalysis,
+        repairData,
+        reports
+      }
+    });
+  } catch (error) {
+    console.error("Test Repair API Error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Test repair failed",
       error: error.message
     });
   }
