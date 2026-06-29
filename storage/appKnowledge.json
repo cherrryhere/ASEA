@@ -4,7 +4,7 @@
       "websiteUrl": "https://the-internet.herokuapp.com/login",
       "currentUrl": "https://the-internet.herokuapp.com/login",
       "pageTitle": "The Internet",
-      "screenshotPath": "screenshots/home-963d042b-281a-4770-9610-35e34397893a.png",
+      "screenshotPath": "screenshots/home-87590638-6c64-4383-8752-c604f4c271ae.png",
       "totalElements": 5,
       "elements": [
         {
@@ -63,7 +63,7 @@
           "href": ""
         }
       ],
-      "inspectedAt": "2026-06-29T10:14:00.302Z"
+      "inspectedAt": "2026-06-29T10:25:28.098Z"
     }
   ]
 }

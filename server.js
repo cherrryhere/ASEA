@@ -15,6 +15,8 @@ import { generatePlaywrightScripts } from "./agents/playwrightTestGeneratorAgent
 import { executeGeneratedTests } from "./agents/testExecutorAgent.js";
 import { generateTestExecutionReports } from "./agents/testExecutionReportAgent.js";
 import { runAutonomousQAPipeline } from "./agents/autonomousQAAgent.js";
+import { analyzeTestFailures } from "./agents/failureAnalysisAgent.js";
+import { generateFailureAnalysisReports } from "./agents/failureAnalysisReportAgent.js";
 
 dotenv.config();
 
@@ -320,15 +322,42 @@ const PORT = process.env.PORT || 5050;
 
 app.listen(PORT, () => {
   console.log("====================================");
-  console.log("🚀 ASEA Agent Backend Started");
-  console.log(`🌐 URL: http://localhost:${PORT}`);
-  console.log("🧠 Groq Planner Agent enabled");
-  console.log("📊 AI Plan Reports enabled");
-  console.log("🔎 Rule-Based Feature Discovery enabled");
-  console.log("🤖 AI Feature Discovery enabled");
-  console.log("🧪 Test Case Generator enabled");
-  console.log("🎭 Playwright Test Script Generator enabled");
-  console.log("✅ Test Executor Agent enabled");
-  console.log("🚀 Autonomous QA Pipeline enabled");
+  console.log(" ASEA Agent Backend Started");
+  console.log(` URL: http://localhost:${PORT}`);
+  console.log(" Groq Planner Agent enabled");
+  console.log(" AI Plan Reports enabled");
+  console.log(" Rule-Based Feature Discovery enabled");
+  console.log(" AI Feature Discovery enabled");
+  console.log(" Test Case Generator enabled");
+  console.log(" Playwright Test Script Generator enabled");
+  console.log(" Test Executor Agent enabled");
+  console.log(" Autonomous QA Pipeline enabled");
   console.log("====================================");
+  console.log(" Failure Analysis Agent enabled");
+});
+
+app.post("/analyze-test-failures", async (req, res) => {
+  try {
+    const executionData = await executeGeneratedTests();
+    const failureAnalysis = await analyzeTestFailures(executionData);
+    const reports = await generateFailureAnalysisReports(failureAnalysis);
+
+    return res.json({
+      success: true,
+      message: "Test failures analyzed and reports generated successfully",
+      data: {
+        executionData,
+        failureAnalysis,
+        reports
+      }
+    });
+  } catch (error) {
+    console.error("Failure Analysis API Error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failure analysis failed",
+      error: error.message
+    });
+  }
 });

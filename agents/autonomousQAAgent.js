@@ -7,6 +7,8 @@ import { generateTestCaseReports } from "./testCaseReportAgent.js";
 import { generatePlaywrightScripts } from "./playwrightTestGeneratorAgent.js";
 import { executeGeneratedTests } from "./testExecutorAgent.js";
 import { generateTestExecutionReports } from "./testExecutionReportAgent.js";
+import { analyzeTestFailures } from "./failureAnalysisAgent.js";
+import { generateFailureAnalysisReports } from "./failureAnalysisReportAgent.js";
 
 export async function runAutonomousQAPipeline(websiteUrl) {
   await fs.ensureDir("tests/generated");
@@ -37,6 +39,11 @@ export async function runAutonomousQAPipeline(websiteUrl) {
 
   const executionReports = await generateTestExecutionReports(executionData);
 
+  const failureAnalysis = await analyzeTestFailures(executionData);
+
+  const failureAnalysisReports =
+    await generateFailureAnalysisReports(failureAnalysis);
+
   const completedAt = new Date().toISOString();
 
   return {
@@ -53,17 +60,20 @@ export async function runAutonomousQAPipeline(websiteUrl) {
       passed: executionData.summary.passed,
       failed: executionData.summary.failed,
       skipped: executionData.summary.skipped,
-      passRate: executionData.summary.passRate
+      passRate: executionData.summary.passRate,
+      failedTestsAnalyzed: failureAnalysis.totalFailedTests
     },
     knowledge,
     featureDiscovery,
     testCases,
     playwrightScripts,
     executionData,
+    failureAnalysis,
     reports: {
       featureReports,
       testCaseReports,
-      executionReports
+      executionReports,
+      failureAnalysisReports
     }
   };
 }
