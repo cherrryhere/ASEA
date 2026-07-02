@@ -26,6 +26,8 @@ import {
   getLatestQARun,
   clearQARunHistory
 } from "./agents/qaRunHistoryAgent.js";
+import { generateQARunAnalytics } from "./agents/qaAnalyticsAgent.js";
+import { generateQAAnalyticsReports } from "./agents/qaAnalyticsReportAgent.js";
 
 dotenv.config();
 
@@ -38,7 +40,7 @@ app.get("/", (req, res) => {
   res.json({
     success: true,
     message: "ASEA Agent Backend is running",
-    version: "2.3.0"
+    version: "2.4.0"
   });
 });
 
@@ -470,6 +472,50 @@ app.delete("/qa-run-history", async (req, res) => {
   }
 });
 
+app.get("/qa-run-analytics", async (req, res) => {
+  try {
+    const analytics = await generateQARunAnalytics();
+
+    return res.json({
+      success: true,
+      message: "QA run analytics generated successfully",
+      data: analytics
+    });
+  } catch (error) {
+    console.error("QA Run Analytics API Error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to generate QA run analytics",
+      error: error.message
+    });
+  }
+});
+
+app.get("/qa-run-analytics/report", async (req, res) => {
+  try {
+    const analytics = await generateQARunAnalytics();
+    const reports = await generateQAAnalyticsReports(analytics);
+
+    return res.json({
+      success: true,
+      message: "QA run analytics reports generated successfully",
+      data: {
+        analytics,
+        reports
+      }
+    });
+  } catch (error) {
+    console.error("QA Run Analytics Report API Error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to generate QA run analytics reports",
+      error: error.message
+    });
+  }
+});
+
 const PORT = process.env.PORT || 5050;
 
 app.listen(PORT, () => {
@@ -488,5 +534,6 @@ app.listen(PORT, () => {
   console.log("🛠️ Self-Healing Test Repair Agent enabled");
   console.log("📈 Repair Validation Agent enabled");
   console.log("🗂️ QA Run History Agent enabled");
+  console.log("📊 QA Run Analytics Agent enabled");
   console.log("====================================");
 });

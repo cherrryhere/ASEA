@@ -1,3 +1,18 @@
 {
-  "runs": []
+  "runs": [
+    {
+      "runId": "86620bfe-b380-42ee-9d91-a74d8fa85c03",
+      "websiteUrl": "https://the-internet.herokuapp.com/login",
+      "status": "failed",
+      "startedAt": "2026-06-29T17:29:48.441Z",
+      "completedAt": "2026-06-29T17:30:01.034Z",
+      "durationSeconds": 12.59,
+      "pipelineSummary": {},
+      "reports": {},
+      "error": {
+        "message": "Bad escaped character in JSON at position 1879 (line 38 column 61)",
+        "stack": "SyntaxError: Bad escaped character in JSON at position 1879 (line 38 column 61)\n    at JSON.parse (<anonymous>)\n    at safeJsonParse (file:///Users/suraaj/ASEA-Agent/agents/playwrightTestGeneratorAgent.js:12:19)\n    at generatePlaywrightScripts (file:///Users/suraaj/ASEA-Agent/agents/playwrightTestGeneratorAgent.js:136:18)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async runAutonomousQAPipeline (file:///Users/suraaj/ASEA-Agent/agents/autonomousQAAgent.js:49:31)\n    at async file:///Users/suraaj/ASEA-Agent/server.js:314:20"
+      }
+    }
+  ]
 }
