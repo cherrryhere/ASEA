@@ -1,0 +1,20 @@
+{
+  "projects": [
+    {
+      "projectId": "92a4c20c-7c04-48fa-a2e6-4fa4480c6e51",
+      "name": "The Internet Login QA",
+      "websiteUrl": "https://the-internet.herokuapp.com/login",
+      "description": "QA automation project for login page testing",
+      "status": "active",
+      "createdAt": "2026-07-13T07:54:37.082Z",
+      "updatedAt": "2026-07-13T07:59:55.559Z",
+      "lastRunAt": "2026-07-13T07:59:55.555Z",
+      "lastRunStatus": "completed",
+      "lastPassRate": 90,
+      "lastTotalTests": 10,
+      "lastPassedTests": 9,
+      "lastFailedTests": 1,
+      "totalRuns": 1
+    }
+  ]
+}

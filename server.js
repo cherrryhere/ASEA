@@ -28,6 +28,13 @@ import {
 } from "./agents/qaRunHistoryAgent.js";
 import { generateQARunAnalytics } from "./agents/qaAnalyticsAgent.js";
 import { generateQAAnalyticsReports } from "./agents/qaAnalyticsReportAgent.js";
+import {
+  createQAProject,
+  getQAProjects,
+  getQAProjectById,
+  updateQAProjectRunStats,
+  deleteQAProject
+} from "./agents/qaProjectAgent.js";
 
 dotenv.config();
 
@@ -40,7 +47,7 @@ app.get("/", (req, res) => {
   res.json({
     success: true,
     message: "ASEA Agent Backend is running",
-    version: "2.4.0"
+    version: "2.5.0"
   });
 });
 
@@ -516,6 +523,132 @@ app.get("/qa-run-analytics/report", async (req, res) => {
   }
 });
 
+app.post("/qa-projects", async (req, res) => {
+  try {
+    const { name, websiteUrl, description } = req.body;
+
+    const project = await createQAProject({
+      name,
+      websiteUrl,
+      description
+    });
+
+    return res.status(201).json({
+      success: true,
+      message: "QA project created successfully",
+      data: {
+        project
+      }
+    });
+  } catch (error) {
+    console.error("Create QA Project API Error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to create QA project",
+      error: error.message
+    });
+  }
+});
+
+app.get("/qa-projects", async (req, res) => {
+  try {
+    const projects = await getQAProjects();
+
+    return res.json({
+      success: true,
+      message: "QA projects fetched successfully",
+      data: projects
+    });
+  } catch (error) {
+    console.error("Get QA Projects API Error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch QA projects",
+      error: error.message
+    });
+  }
+});
+
+app.get("/qa-projects/:projectId", async (req, res) => {
+  try {
+    const { projectId } = req.params;
+
+    const project = await getQAProjectById(projectId);
+
+    return res.json({
+      success: true,
+      message: "QA project fetched successfully",
+      data: {
+        project
+      }
+    });
+  } catch (error) {
+    console.error("Get QA Project API Error:", error);
+
+    return res.status(404).json({
+      success: false,
+      message: "Failed to fetch QA project",
+      error: error.message
+    });
+  }
+});
+
+app.delete("/qa-projects/:projectId", async (req, res) => {
+  try {
+    const { projectId } = req.params;
+
+    const result = await deleteQAProject(projectId);
+
+    return res.json({
+      success: true,
+      message: "QA project deleted successfully",
+      data: result
+    });
+  } catch (error) {
+    console.error("Delete QA Project API Error:", error);
+
+    return res.status(404).json({
+      success: false,
+      message: "Failed to delete QA project",
+      error: error.message
+    });
+  }
+});
+
+app.post("/qa-projects/:projectId/run", async (req, res) => {
+  try {
+    const { projectId } = req.params;
+
+    const project = await getQAProjectById(projectId);
+
+    const pipelineResult = await runAutonomousQAPipeline(project.websiteUrl);
+
+    const updatedProject = await updateQAProjectRunStats(
+      projectId,
+      pipelineResult
+    );
+
+    return res.json({
+      success: true,
+      message: "QA project run completed successfully",
+      data: {
+        project: updatedProject,
+        pipelineResult
+      }
+    });
+  } catch (error) {
+    console.error("Run QA Project API Error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to run QA project",
+      error: error.message
+    });
+  }
+});
+
 const PORT = process.env.PORT || 5050;
 
 app.listen(PORT, () => {
@@ -535,5 +668,6 @@ app.listen(PORT, () => {
   console.log("📈 Repair Validation Agent enabled");
   console.log("🗂️ QA Run History Agent enabled");
   console.log("📊 QA Run Analytics Agent enabled");
+  console.log("📁 QA Project Management Agent enabled");
   console.log("====================================");
 });

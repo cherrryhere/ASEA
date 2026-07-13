@@ -1,6 +1,64 @@
 {
   "runs": [
     {
+      "runId": "cc089f46-8a39-4912-b1a0-9b49c22d7029",
+      "websiteUrl": "https://the-internet.herokuapp.com/login",
+      "status": "completed",
+      "startedAt": "2026-07-13T07:58:02.462Z",
+      "completedAt": "2026-07-13T07:59:55.555Z",
+      "durationSeconds": 113.09,
+      "pipelineSummary": {
+        "pageTitle": "The Internet",
+        "totalElements": 5,
+        "totalFeatures": 3,
+        "totalTestCases": 9,
+        "generatedPlaywrightFiles": 1,
+        "totalExecutedTests": 10,
+        "passed": 9,
+        "failed": 1,
+        "skipped": 0,
+        "passRate": 90,
+        "failedTestsAnalyzed": 1
+      },
+      "reports": {
+        "featureReports": {
+          "reportId": "821f8e88-7a40-4d8b-b88c-953e56de712e",
+          "markdownPath": "reports/feature-discovery-report-821f8e88-7a40-4d8b-b88c-953e56de712e.md",
+          "excelPath": "reports/feature-discovery-report-821f8e88-7a40-4d8b-b88c-953e56de712e.xlsx"
+        },
+        "testCaseReports": {
+          "reportId": "38d9a83a-c56e-42d8-9b33-40711be998a7",
+          "markdownPath": "reports/test-case-report-38d9a83a-c56e-42d8-9b33-40711be998a7.md",
+          "excelPath": "reports/test-case-report-38d9a83a-c56e-42d8-9b33-40711be998a7.xlsx"
+        },
+        "executionReports": {
+          "reportId": "826b1860-f38a-4d5a-ae3b-65ec753fe9bc",
+          "markdownPath": "reports/test-execution-report-826b1860-f38a-4d5a-ae3b-65ec753fe9bc.md",
+          "excelPath": "reports/test-execution-report-826b1860-f38a-4d5a-ae3b-65ec753fe9bc.xlsx"
+        },
+        "failureAnalysisReports": {
+          "reportId": "8db57d2c-b548-4835-9873-1c9807839963",
+          "markdownPath": "reports/failure-analysis-report-8db57d2c-b548-4835-9873-1c9807839963.md",
+          "excelPath": "reports/failure-analysis-report-8db57d2c-b548-4835-9873-1c9807839963.xlsx"
+        }
+      },
+      "error": null
+    },
+    {
+      "runId": "0342820b-4bfa-484d-adc0-a951a6b4a0b1",
+      "websiteUrl": "https://the-internet.herokuapp.com/login",
+      "status": "failed",
+      "startedAt": "2026-07-13T07:56:20.282Z",
+      "completedAt": "2026-07-13T07:56:32.486Z",
+      "durationSeconds": 12.2,
+      "pipelineSummary": {},
+      "reports": {},
+      "error": {
+        "message": "Bad escaped character in JSON at position 1858 (line 38 column 53)",
+        "stack": "SyntaxError: Bad escaped character in JSON at position 1858 (line 38 column 53)\n    at JSON.parse (<anonymous>)\n    at safeJsonParse (file:///Users/suraaj/ASEA-Agent/agents/playwrightTestGeneratorAgent.js:12:19)\n    at generatePlaywrightScripts (file:///Users/suraaj/ASEA-Agent/agents/playwrightTestGeneratorAgent.js:136:18)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async runAutonomousQAPipeline (file:///Users/suraaj/ASEA-Agent/agents/autonomousQAAgent.js:49:31)\n    at async file:///Users/suraaj/ASEA-Agent/server.js:626:28"
+      }
+    },
+    {
       "runId": "86620bfe-b380-42ee-9d91-a74d8fa85c03",
       "websiteUrl": "https://the-internet.herokuapp.com/login",
       "status": "failed",
