@@ -1,6 +1,95 @@
 {
   "runs": [
     {
+      "runId": "13855c7a-d57f-4166-b898-d50fd434e1b7",
+      "websiteUrl": "https://the-internet.herokuapp.com/login",
+      "status": "completed",
+      "startedAt": "2026-07-13T08:40:26.719Z",
+      "completedAt": "2026-07-13T08:41:05.580Z",
+      "durationSeconds": 38.86,
+      "pipelineSummary": {
+        "pageTitle": "The Internet",
+        "totalElements": 5,
+        "totalFeatures": 2,
+        "totalTestCases": 2,
+        "generatedPlaywrightFiles": 2,
+        "totalExecutedTests": 2,
+        "passed": 0,
+        "failed": 2,
+        "skipped": 0,
+        "passRate": 0,
+        "failedTestsAnalyzed": 2
+      },
+      "reports": {
+        "featureReports": {
+          "reportId": "39ab30a7-416a-4243-9b46-bcff609ce929",
+          "markdownPath": "reports/feature-discovery-report-39ab30a7-416a-4243-9b46-bcff609ce929.md",
+          "excelPath": "reports/feature-discovery-report-39ab30a7-416a-4243-9b46-bcff609ce929.xlsx"
+        },
+        "testCaseReports": {
+          "success": true,
+          "reportId": "6861958d-ab17-475d-ab51-788b41db8d4e",
+          "totalTestCases": 2,
+          "markdownPath": "reports/test-case-report-6861958d-ab17-475d-ab51-788b41db8d4e.md",
+          "excelPath": "reports/test-case-report-6861958d-ab17-475d-ab51-788b41db8d4e.xlsx",
+          "generatedAt": "2026-07-13T08:40:39.868Z"
+        },
+        "executionReports": {
+          "reportId": "88aec6c5-00d4-485e-8fb1-ea1fdb707bf4",
+          "markdownPath": "reports/test-execution-report-88aec6c5-00d4-485e-8fb1-ea1fdb707bf4.md",
+          "excelPath": "reports/test-execution-report-88aec6c5-00d4-485e-8fb1-ea1fdb707bf4.xlsx"
+        },
+        "failureAnalysisReports": {
+          "reportId": "04570274-d6c2-4fa2-a924-9dd40da49336",
+          "markdownPath": "reports/failure-analysis-report-04570274-d6c2-4fa2-a924-9dd40da49336.md",
+          "excelPath": "reports/failure-analysis-report-04570274-d6c2-4fa2-a924-9dd40da49336.xlsx"
+        }
+      },
+      "error": null
+    },
+    {
+      "runId": "b4e2f32d-4377-4b35-b2c4-badcb049ff5f",
+      "websiteUrl": "https://the-internet.herokuapp.com/login",
+      "status": "failed",
+      "startedAt": "2026-07-13T08:37:35.936Z",
+      "completedAt": "2026-07-13T08:37:53.153Z",
+      "durationSeconds": 17.22,
+      "pipelineSummary": {},
+      "reports": {},
+      "error": {
+        "message": "Cannot read properties of undefined (reading 'map')",
+        "stack": "TypeError: Cannot read properties of undefined (reading 'map')\n    at generateTestCaseMarkdownReport (file:///Users/suraaj/ASEA-Agent/agents/testCaseReportAgent.js:47:4)\n    at generateTestCaseReports (file:///Users/suraaj/ASEA-Agent/agents/testCaseReportAgent.js:12:9)\n    at async runAutonomousQAPipeline (file:///Users/suraaj/ASEA-Agent/agents/autonomousQAAgent.js:47:29)\n    at async file:///Users/suraaj/ASEA-Agent/server.js:948:9"
+      }
+    },
+    {
+      "runId": "cc44c657-36aa-4010-bc4c-e39ff4fe6343",
+      "websiteUrl": "https://the-internet.herokuapp.com/login",
+      "status": "failed",
+      "startedAt": "2026-07-13T08:34:47.857Z",
+      "completedAt": "2026-07-13T08:35:07.776Z",
+      "durationSeconds": 19.92,
+      "pipelineSummary": {},
+      "reports": {},
+      "error": {
+        "message": "Expected ',' or ']' after array element in JSON at position 7491 (line 205 column 10)",
+        "stack": "SyntaxError: Expected ',' or ']' after array element in JSON at position 7491 (line 205 column 10)\n    at JSON.parse (<anonymous>)\n    at safeJsonParse (file:///Users/suraaj/ASEA-Agent/agents/testGeneratorAgent.js:10:19)\n    at generateTestCasesFromFeatures (file:///Users/suraaj/ASEA-Agent/agents/testGeneratorAgent.js:123:18)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async runAutonomousQAPipeline (file:///Users/suraaj/ASEA-Agent/agents/autonomousQAAgent.js:45:23)\n    at async file:///Users/suraaj/ASEA-Agent/server.js:948:9"
+      }
+    },
+    {
+      "runId": "c752c573-da2d-4cca-8fdd-740e36beccc0",
+      "websiteUrl": "https://the-internet.herokuapp.com/login",
+      "status": "failed",
+      "startedAt": "2026-07-13T08:31:00.795Z",
+      "completedAt": "2026-07-13T08:31:28.394Z",
+      "durationSeconds": 27.6,
+      "pipelineSummary": {},
+      "reports": {},
+      "error": {
+        "message": "Unterminated string in JSON at position 5017 (line 87 column 105)",
+        "stack": "SyntaxError: Unterminated string in JSON at position 5017 (line 87 column 105)\n    at JSON.parse (<anonymous>)\n    at safeJsonParse (file:///Users/suraaj/ASEA-Agent/agents/playwrightTestGeneratorAgent.js:12:19)\n    at generatePlaywrightScripts (file:///Users/suraaj/ASEA-Agent/agents/playwrightTestGeneratorAgent.js:136:18)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async runAutonomousQAPipeline (file:///Users/suraaj/ASEA-Agent/agents/autonomousQAAgent.js:49:31)\n    at async file:///Users/suraaj/ASEA-Agent/server.js:948:9"
+      }
+    },
+    {
       "runId": "cc089f46-8a39-4912-b1a0-9b49c22d7029",
       "websiteUrl": "https://the-internet.herokuapp.com/login",
       "status": "completed",

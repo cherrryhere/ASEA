@@ -1,6 +1,6 @@
 {
   "name": "asea-agent",
-  "version": "2.5.0",
+  "version": "2.6.0",
   "description": "ASEA - Autonomous Software Engineering Agent",
   "type": "module",
   "main": "server.js",
@@ -15,6 +15,7 @@
   "keywords": [
     "AI",
     "LLM",
+    "Groq",
     "Playwright",
     "Automation",
     "Agent",
@@ -32,7 +33,9 @@
     "Self Healing Tests",
     "Repair Validation",
     "QA Run History",
-    "QA Analytics"
+    "QA Analytics",
+    "QA Project Management",
+    "QA Project Lifecycle"
   ],
   "author": "Suraaj Gibs",
   "license": "MIT",

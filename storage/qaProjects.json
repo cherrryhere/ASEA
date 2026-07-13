@@ -7,14 +7,14 @@
       "description": "QA automation project for login page testing",
       "status": "active",
       "createdAt": "2026-07-13T07:54:37.082Z",
-      "updatedAt": "2026-07-13T07:59:55.559Z",
-      "lastRunAt": "2026-07-13T07:59:55.555Z",
+      "updatedAt": "2026-07-13T08:44:01.205Z",
+      "lastRunAt": "2026-07-13T08:41:05.580Z",
       "lastRunStatus": "completed",
-      "lastPassRate": 90,
-      "lastTotalTests": 10,
-      "lastPassedTests": 9,
-      "lastFailedTests": 1,
-      "totalRuns": 1
+      "lastPassRate": 0,
+      "lastTotalTests": 2,
+      "lastPassedTests": 0,
+      "lastFailedTests": 2,
+      "totalRuns": 2
     }
   ]
 }
