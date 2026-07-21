@@ -1,69 +1,402 @@
 {
-  "websites": [
+  "websiteUrl": "https://the-internet.herokuapp.com/login",
+  "finalUrl": "https://the-internet.herokuapp.com/login",
+  "pageTitle": "The Internet",
+  "metaDescription": "",
+  "language": "en",
+  "bodyText": "Login Page This is where you can log into the secure area. Enter tomsmith for the username and SuperSecretPassword! for the password. If the information is wrong you should see error messages. Username Password Login Powered by Elemental Selenium",
+  "headings": [
     {
-      "websiteUrl": "https://the-internet.herokuapp.com/login",
-      "currentUrl": "https://the-internet.herokuapp.com/login",
-      "pageTitle": "The Internet",
-      "screenshotPath": "screenshots/home-bd4b0845-732f-480c-bad6-10441ac97d0c.png",
-      "totalElements": 5,
-      "elements": [
-        {
-          "tag": "button",
-          "text": "Login",
-          "placeholder": "",
-          "type": "submit",
-          "name": "",
-          "id": "",
-          "className": "radius",
-          "ariaLabel": "",
-          "href": ""
-        },
-        {
-          "tag": "a",
-          "text": "",
-          "placeholder": "",
-          "type": "",
-          "name": "",
-          "id": "",
-          "className": "",
-          "ariaLabel": "",
-          "href": "https://github.com/tourdedave/the-internet"
-        },
-        {
-          "tag": "a",
-          "text": "Elemental Selenium",
-          "placeholder": "",
-          "type": "",
-          "name": "",
-          "id": "",
-          "className": "",
-          "ariaLabel": "",
-          "href": "http://elementalselenium.com/"
-        },
-        {
-          "tag": "input",
-          "text": "",
-          "placeholder": "",
-          "type": "text",
-          "name": "username",
-          "id": "username",
-          "className": "",
-          "ariaLabel": "",
-          "href": ""
-        },
-        {
-          "tag": "input",
-          "text": "",
-          "placeholder": "",
-          "type": "password",
-          "name": "password",
-          "id": "password",
-          "className": "",
-          "ariaLabel": "",
-          "href": ""
-        }
-      ],
-      "inspectedAt": "2026-07-13T08:40:33.486Z"
+      "index": 1,
+      "level": "h2",
+      "text": "Login Page"
+    },
+    {
+      "index": 2,
+      "level": "h4",
+      "text": "This is where you can log into the secure area. Enter tomsmith for the username and SuperSecretPassword! for the password. If the information is wrong you should see error messages."
     }
-  ]
+  ],
+  "elements": [
+    {
+      "index": 1,
+      "tagName": "a",
+      "type": "",
+      "id": "",
+      "name": "",
+      "text": "",
+      "value": "",
+      "placeholder": "",
+      "ariaLabel": "",
+      "role": "",
+      "href": "https://github.com/tourdedave/the-internet",
+      "action": "",
+      "method": "",
+      "selector": "a",
+      "visible": true,
+      "disabled": false,
+      "required": false,
+      "attributes": {
+        "href": "https://github.com/tourdedave/the-internet"
+      }
+    },
+    {
+      "index": 2,
+      "tagName": "form",
+      "type": "",
+      "id": "login",
+      "name": "login",
+      "text": "Username Password Login",
+      "value": "",
+      "placeholder": "",
+      "ariaLabel": "",
+      "role": "",
+      "href": "",
+      "action": "https://the-internet.herokuapp.com/authenticate",
+      "method": "post",
+      "selector": "#login",
+      "visible": true,
+      "disabled": false,
+      "required": false,
+      "attributes": {
+        "name": "login",
+        "id": "login",
+        "action": "/authenticate",
+        "method": "post"
+      }
+    },
+    {
+      "index": 3,
+      "tagName": "input",
+      "type": "text",
+      "id": "username",
+      "name": "username",
+      "text": "",
+      "value": "",
+      "placeholder": "",
+      "ariaLabel": "",
+      "role": "",
+      "href": "",
+      "action": "",
+      "method": "",
+      "selector": "#username",
+      "visible": true,
+      "disabled": false,
+      "required": false,
+      "attributes": {
+        "type": "text",
+        "name": "username",
+        "id": "username"
+      }
+    },
+    {
+      "index": 4,
+      "tagName": "input",
+      "type": "password",
+      "id": "password",
+      "name": "password",
+      "text": "",
+      "value": "",
+      "placeholder": "",
+      "ariaLabel": "",
+      "role": "",
+      "href": "",
+      "action": "",
+      "method": "",
+      "selector": "#password",
+      "visible": true,
+      "disabled": false,
+      "required": false,
+      "attributes": {
+        "type": "password",
+        "name": "password",
+        "id": "password"
+      }
+    },
+    {
+      "index": 5,
+      "tagName": "button",
+      "type": "submit",
+      "id": "",
+      "name": "",
+      "text": "Login",
+      "value": "",
+      "placeholder": "",
+      "ariaLabel": "",
+      "role": "",
+      "href": "",
+      "action": "",
+      "method": "",
+      "selector": "button.radius",
+      "visible": true,
+      "disabled": false,
+      "required": false,
+      "attributes": {
+        "class": "radius",
+        "type": "submit"
+      }
+    },
+    {
+      "index": 6,
+      "tagName": "a",
+      "type": "",
+      "id": "",
+      "name": "",
+      "text": "Elemental Selenium",
+      "value": "",
+      "placeholder": "",
+      "ariaLabel": "",
+      "role": "",
+      "href": "http://elementalselenium.com/",
+      "action": "",
+      "method": "",
+      "selector": "a",
+      "visible": true,
+      "disabled": false,
+      "required": false,
+      "attributes": {
+        "target": "_blank",
+        "href": "http://elementalselenium.com/"
+      }
+    }
+  ],
+  "links": [
+    {
+      "index": 1,
+      "tagName": "a",
+      "type": "",
+      "id": "",
+      "name": "",
+      "text": "",
+      "value": "",
+      "placeholder": "",
+      "ariaLabel": "",
+      "role": "",
+      "href": "https://github.com/tourdedave/the-internet",
+      "action": "",
+      "method": "",
+      "selector": "a",
+      "visible": true,
+      "disabled": false,
+      "required": false,
+      "attributes": {
+        "href": "https://github.com/tourdedave/the-internet"
+      }
+    },
+    {
+      "index": 2,
+      "tagName": "a",
+      "type": "",
+      "id": "",
+      "name": "",
+      "text": "Elemental Selenium",
+      "value": "",
+      "placeholder": "",
+      "ariaLabel": "",
+      "role": "",
+      "href": "http://elementalselenium.com/",
+      "action": "",
+      "method": "",
+      "selector": "a",
+      "visible": true,
+      "disabled": false,
+      "required": false,
+      "attributes": {
+        "target": "_blank",
+        "href": "http://elementalselenium.com/"
+      }
+    }
+  ],
+  "buttons": [
+    {
+      "index": 1,
+      "tagName": "button",
+      "type": "submit",
+      "id": "",
+      "name": "",
+      "text": "Login",
+      "value": "",
+      "placeholder": "",
+      "ariaLabel": "",
+      "role": "",
+      "href": "",
+      "action": "",
+      "method": "",
+      "selector": "button.radius",
+      "visible": true,
+      "disabled": false,
+      "required": false,
+      "attributes": {
+        "class": "radius",
+        "type": "submit"
+      }
+    }
+  ],
+  "inputs": [
+    {
+      "index": 1,
+      "tagName": "input",
+      "type": "text",
+      "id": "username",
+      "name": "username",
+      "text": "",
+      "value": "",
+      "placeholder": "",
+      "ariaLabel": "",
+      "role": "",
+      "href": "",
+      "action": "",
+      "method": "",
+      "selector": "#username",
+      "visible": true,
+      "disabled": false,
+      "required": false,
+      "attributes": {
+        "type": "text",
+        "name": "username",
+        "id": "username"
+      }
+    },
+    {
+      "index": 2,
+      "tagName": "input",
+      "type": "password",
+      "id": "password",
+      "name": "password",
+      "text": "",
+      "value": "",
+      "placeholder": "",
+      "ariaLabel": "",
+      "role": "",
+      "href": "",
+      "action": "",
+      "method": "",
+      "selector": "#password",
+      "visible": true,
+      "disabled": false,
+      "required": false,
+      "attributes": {
+        "type": "password",
+        "name": "password",
+        "id": "password"
+      }
+    }
+  ],
+  "forms": [
+    {
+      "index": 1,
+      "tagName": "form",
+      "type": "",
+      "id": "login",
+      "name": "login",
+      "text": "Username Password Login",
+      "value": "",
+      "placeholder": "",
+      "ariaLabel": "",
+      "role": "",
+      "href": "",
+      "action": "https://the-internet.herokuapp.com/authenticate",
+      "method": "post",
+      "selector": "#login",
+      "visible": true,
+      "disabled": false,
+      "required": false,
+      "attributes": {
+        "name": "login",
+        "id": "login",
+        "action": "/authenticate",
+        "method": "post"
+      },
+      "fields": [
+        {
+          "index": 1,
+          "tagName": "input",
+          "type": "text",
+          "id": "username",
+          "name": "username",
+          "text": "",
+          "value": "",
+          "placeholder": "",
+          "ariaLabel": "",
+          "role": "",
+          "href": "",
+          "action": "",
+          "method": "",
+          "selector": "#username",
+          "visible": true,
+          "disabled": false,
+          "required": false,
+          "attributes": {
+            "type": "text",
+            "name": "username",
+            "id": "username"
+          }
+        },
+        {
+          "index": 2,
+          "tagName": "input",
+          "type": "password",
+          "id": "password",
+          "name": "password",
+          "text": "",
+          "value": "",
+          "placeholder": "",
+          "ariaLabel": "",
+          "role": "",
+          "href": "",
+          "action": "",
+          "method": "",
+          "selector": "#password",
+          "visible": true,
+          "disabled": false,
+          "required": false,
+          "attributes": {
+            "type": "password",
+            "name": "password",
+            "id": "password"
+          }
+        },
+        {
+          "index": 3,
+          "tagName": "button",
+          "type": "submit",
+          "id": "",
+          "name": "",
+          "text": "Login",
+          "value": "",
+          "placeholder": "",
+          "ariaLabel": "",
+          "role": "",
+          "href": "",
+          "action": "",
+          "method": "",
+          "selector": "button.radius",
+          "visible": true,
+          "disabled": false,
+          "required": false,
+          "attributes": {
+            "class": "radius",
+            "type": "submit"
+          }
+        }
+      ]
+    }
+  ],
+  "totalElements": 6,
+  "totalLinks": 2,
+  "totalButtons": 1,
+  "totalInputs": 2,
+  "totalForms": 1,
+  "navigation": {
+    "success": true,
+    "attempt": 1,
+    "responseStatus": 200,
+    "responseOk": true
+  },
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "inspectedAt": "2026-07-21T07:45:20.910Z",
+  "screenshotPath": "screenshots/inspection-92a1af39-ccb4-4693-be8f-b64d1e15dbc3.png"
 }

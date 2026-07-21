@@ -6,7 +6,9 @@ const HISTORY_FILE_PATH = "storage/qaRunHistory.json";
 async function ensureHistoryFile() {
   await fs.ensureDir("storage");
 
-  const exists = await fs.pathExists(HISTORY_FILE_PATH);
+  const exists = await fs.pathExists(
+    HISTORY_FILE_PATH
+  );
 
   if (!exists) {
     await fs.writeJson(
@@ -14,67 +16,276 @@ async function ensureHistoryFile() {
       {
         runs: []
       },
-      { spaces: 2 }
+      {
+        spaces: 2
+      }
     );
   }
 }
 
-export async function saveQARunHistory(runData) {
+async function readHistoryData() {
   await ensureHistoryFile();
 
-  const history = await fs.readJson(HISTORY_FILE_PATH);
+  try {
+    const historyData =
+      await fs.readJson(HISTORY_FILE_PATH);
 
-  const runRecord = {
-    runId: runData.runId || uuidv4(),
-    websiteUrl: runData.websiteUrl || "",
-    status: runData.status || "unknown",
-    startedAt: runData.startedAt || "",
-    completedAt: runData.completedAt || new Date().toISOString(),
-    durationSeconds: runData.durationSeconds || 0,
-    pipelineSummary: runData.pipelineSummary || {},
-    reports: runData.reports || {},
-    error: runData.error || null
+    return {
+      runs: Array.isArray(historyData.runs)
+        ? historyData.runs
+        : []
+    };
+  } catch (error) {
+    throw new Error(
+      `Could not read QA run history: ${error.message}`
+    );
+  }
+}
+
+async function writeHistoryData(historyData) {
+  await fs.writeJson(
+    HISTORY_FILE_PATH,
+    {
+      runs: Array.isArray(historyData.runs)
+        ? historyData.runs
+        : []
+    },
+    {
+      spaces: 2
+    }
+  );
+}
+
+function cleanText(value) {
+  return String(value ?? "").trim();
+}
+
+function normalizeRunRecord(runData) {
+  return {
+    runId:
+      cleanText(runData?.runId) ||
+      uuidv4(),
+
+    projectId:
+      cleanText(runData?.projectId) ||
+      null,
+
+    projectName:
+      cleanText(runData?.projectName) ||
+      null,
+
+    websiteUrl:
+      cleanText(runData?.websiteUrl),
+
+    status:
+      cleanText(runData?.status) ||
+      "unknown",
+
+    startedAt:
+      cleanText(runData?.startedAt),
+
+    completedAt:
+      cleanText(runData?.completedAt) ||
+      new Date().toISOString(),
+
+    durationSeconds:
+      Number(runData?.durationSeconds || 0),
+
+    pipelineSummary:
+      runData?.pipelineSummary &&
+      typeof runData.pipelineSummary ===
+        "object"
+        ? runData.pipelineSummary
+        : {},
+
+    reports:
+      runData?.reports &&
+      typeof runData.reports === "object"
+        ? runData.reports
+        : {},
+
+    error:
+      runData?.error || null
   };
+}
 
-  history.runs.unshift(runRecord);
+export async function saveQARunHistory(
+  runData
+) {
+  const historyData =
+    await readHistoryData();
 
-  await fs.writeJson(HISTORY_FILE_PATH, history, { spaces: 2 });
+  const runRecord =
+    normalizeRunRecord(runData);
+
+  historyData.runs.unshift(runRecord);
+
+  await writeHistoryData(historyData);
 
   return runRecord;
 }
 
-export async function getQARunHistory() {
-  await ensureHistoryFile();
+export async function getQARunHistory({
+  projectId = "",
+  status = "",
+  limit = null
+} = {}) {
+  const historyData =
+    await readHistoryData();
 
-  const history = await fs.readJson(HISTORY_FILE_PATH);
+  const cleanProjectId =
+    cleanText(projectId);
+
+  const cleanStatus =
+    cleanText(status).toLowerCase();
+
+  let runs = [...historyData.runs];
+
+  if (cleanProjectId) {
+    runs = runs.filter(
+      (run) =>
+        run.projectId === cleanProjectId
+    );
+  }
+
+  if (cleanStatus) {
+    runs = runs.filter(
+      (run) =>
+        cleanText(run.status).toLowerCase() ===
+        cleanStatus
+    );
+  }
+
+  const numericLimit = Number(limit);
+
+  if (
+    Number.isInteger(numericLimit) &&
+    numericLimit > 0
+  ) {
+    runs = runs.slice(0, numericLimit);
+  }
 
   return {
-    totalRuns: Array.isArray(history.runs) ? history.runs.length : 0,
-    runs: Array.isArray(history.runs) ? history.runs : []
+    totalRuns: runs.length,
+
+    filters: {
+      projectId:
+        cleanProjectId || null,
+
+      status:
+        cleanStatus || null,
+
+      limit:
+        Number.isInteger(numericLimit) &&
+        numericLimit > 0
+          ? numericLimit
+          : null
+    },
+
+    runs
   };
 }
 
-export async function getLatestQARun() {
-  const history = await getQARunHistory();
+export async function getLatestQARun({
+  projectId = ""
+} = {}) {
+  const history =
+    await getQARunHistory({
+      projectId,
+      limit: 1
+    });
 
   return {
-    latestRun: history.runs.length > 0 ? history.runs[0] : null
+    projectId:
+      cleanText(projectId) || null,
+
+    latestRun:
+      history.runs.length > 0
+        ? history.runs[0]
+        : null
+  };
+}
+
+export async function getProjectQARuns(
+  projectId
+) {
+  const cleanProjectId =
+    cleanText(projectId);
+
+  if (!cleanProjectId) {
+    throw new Error(
+      "projectId is required."
+    );
+  }
+
+  return getQARunHistory({
+    projectId: cleanProjectId
+  });
+}
+
+export async function getLatestProjectQARun(
+  projectId
+) {
+  const cleanProjectId =
+    cleanText(projectId);
+
+  if (!cleanProjectId) {
+    throw new Error(
+      "projectId is required."
+    );
+  }
+
+  return getLatestQARun({
+    projectId: cleanProjectId
+  });
+}
+
+export async function deleteProjectQARuns(
+  projectId
+) {
+  const cleanProjectId =
+    cleanText(projectId);
+
+  if (!cleanProjectId) {
+    throw new Error(
+      "projectId is required."
+    );
+  }
+
+  const historyData =
+    await readHistoryData();
+
+  const originalCount =
+    historyData.runs.length;
+
+  historyData.runs =
+    historyData.runs.filter(
+      (run) =>
+        run.projectId !== cleanProjectId
+    );
+
+  const deletedRuns =
+    originalCount -
+    historyData.runs.length;
+
+  await writeHistoryData(historyData);
+
+  return {
+    projectId: cleanProjectId,
+    deletedRuns,
+    deletedAt:
+      new Date().toISOString()
   };
 }
 
 export async function clearQARunHistory() {
-  await fs.ensureDir("storage");
-
-  await fs.writeJson(
-    HISTORY_FILE_PATH,
-    {
-      runs: []
-    },
-    { spaces: 2 }
-  );
+  await writeHistoryData({
+    runs: []
+  });
 
   return {
     cleared: true,
-    clearedAt: new Date().toISOString()
+    clearedAt:
+      new Date().toISOString()
   };
 }

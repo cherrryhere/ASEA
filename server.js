@@ -2,44 +2,102 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 
-import { inspectWebsite } from "./agents/browserAgent.js";
-import { generateInspectionReport } from "./agents/reportAgent.js";
-import { generateExcelReport } from "./agents/excelReportAgent.js";
+import {
+  inspectWebsite
+} from "./agents/browserAgent.js";
 
-import { generateEngineeringPlan } from "./agents/plannerAgent.js";
-import { generateAIPlanReports } from "./agents/aiPlanReportAgent.js";
+import {
+  generateInspectionReport
+} from "./agents/reportAgent.js";
 
-import { discoverFeatures } from "./agents/featureDiscoveryAgent.js";
-import { generateFeatureReports } from "./agents/featureReportAgent.js";
-import { discoverFeaturesWithAI } from "./agents/aiFeatureDiscoveryAgent.js";
+import {
+  generateExcelReport
+} from "./agents/excelReportAgent.js";
 
-import { generateTestCasesFromFeatures } from "./agents/testGeneratorAgent.js";
-import { generateTestCaseReports } from "./agents/testCaseReportAgent.js";
+import {
+  generateEngineeringPlan
+} from "./agents/plannerAgent.js";
 
-import { generatePlaywrightScripts } from "./agents/playwrightTestGeneratorAgent.js";
+import {
+  generateAIPlanReports
+} from "./agents/aiPlanReportAgent.js";
 
-import { executeGeneratedTests } from "./agents/testExecutorAgent.js";
-import { generateTestExecutionReports } from "./agents/testExecutionReportAgent.js";
+import {
+  discoverFeatures
+} from "./agents/featureDiscoveryAgent.js";
 
-import { runAutonomousQAPipeline } from "./agents/autonomousQAAgent.js";
+import {
+  generateFeatureReports
+} from "./agents/featureReportAgent.js";
 
-import { analyzeTestFailures } from "./agents/failureAnalysisAgent.js";
-import { generateFailureAnalysisReports } from "./agents/failureAnalysisReportAgent.js";
+import {
+  discoverFeaturesWithAI
+} from "./agents/aiFeatureDiscoveryAgent.js";
 
-import { repairGeneratedTests } from "./agents/testRepairAgent.js";
-import { generateTestRepairReports } from "./agents/testRepairReportAgent.js";
+import {
+  generateTestCasesFromFeatures
+} from "./agents/testGeneratorAgent.js";
 
-import { validateRepairResults } from "./agents/repairValidationAgent.js";
-import { generateRepairValidationReports } from "./agents/repairValidationReportAgent.js";
+import {
+  generateTestCaseReports
+} from "./agents/testCaseReportAgent.js";
+
+import {
+  generatePlaywrightScripts
+} from "./agents/playwrightTestGeneratorAgent.js";
+
+import {
+  executeGeneratedTests
+} from "./agents/testExecutorAgent.js";
+
+import {
+  generateTestExecutionReports
+} from "./agents/testExecutionReportAgent.js";
+
+import {
+  runAutonomousQAPipeline
+} from "./agents/autonomousQAAgent.js";
+
+import {
+  analyzeTestFailures
+} from "./agents/failureAnalysisAgent.js";
+
+import {
+  generateFailureAnalysisReports
+} from "./agents/failureAnalysisReportAgent.js";
+
+import {
+  repairGeneratedTests
+} from "./agents/testRepairAgent.js";
+
+import {
+  generateTestRepairReports
+} from "./agents/testRepairReportAgent.js";
+
+import {
+  validateRepairResults
+} from "./agents/repairValidationAgent.js";
+
+import {
+  generateRepairValidationReports
+} from "./agents/repairValidationReportAgent.js";
 
 import {
   getQARunHistory,
   getLatestQARun,
+  getProjectQARuns,
+  getLatestProjectQARun,
+  deleteProjectQARuns,
   clearQARunHistory
 } from "./agents/qaRunHistoryAgent.js";
 
-import { generateQARunAnalytics } from "./agents/qaAnalyticsAgent.js";
-import { generateQAAnalyticsReports } from "./agents/qaAnalyticsReportAgent.js";
+import {
+  generateQARunAnalytics
+} from "./agents/qaAnalyticsAgent.js";
+
+import {
+  generateQAAnalyticsReports
+} from "./agents/qaAnalyticsReportAgent.js";
 
 import {
   createQAProject,
@@ -52,6 +110,10 @@ import {
   getAllowedProjectStatuses
 } from "./agents/qaProjectAgent.js";
 
+import {
+  generateProjectRunAnalytics
+} from "./agents/projectRunAnalyticsAgent.js";
+
 dotenv.config();
 
 const app = express();
@@ -62,8 +124,9 @@ app.use(express.json());
 app.get("/", (req, res) => {
   return res.json({
     success: true,
-    message: "ASEA Agent Backend is running",
-    version: "2.6.0",
+    message:
+      "ASEA Agent Backend is running",
+    version: "2.7.0",
     aiProvider: "GroqCloud",
     model:
       process.env.GROQ_MODEL ||
@@ -75,8 +138,9 @@ app.get("/health", (req, res) => {
   return res.json({
     success: true,
     status: "healthy",
-    version: "2.6.0",
-    timestamp: new Date().toISOString()
+    version: "2.7.0",
+    timestamp:
+      new Date().toISOString()
   });
 });
 
@@ -87,7 +151,8 @@ app.post("/inspect", async (req, res) => {
     if (!websiteUrl) {
       return res.status(400).json({
         success: false,
-        message: "websiteUrl is required"
+        message:
+          "websiteUrl is required"
       });
     }
 
@@ -95,10 +160,14 @@ app.post("/inspect", async (req, res) => {
       await inspectWebsite(websiteUrl);
 
     const markdownReport =
-      await generateInspectionReport(knowledge);
+      await generateInspectionReport(
+        knowledge
+      );
 
     const excelReport =
-      await generateExcelReport(knowledge);
+      await generateExcelReport(
+        knowledge
+      );
 
     return res.json({
       success: true,
@@ -113,11 +182,15 @@ app.post("/inspect", async (req, res) => {
       }
     });
   } catch (error) {
-    console.error("Inspect API Error:", error);
+    console.error(
+      "Inspect API Error:",
+      error
+    );
 
     return res.status(500).json({
       success: false,
-      message: "Website inspection failed",
+      message:
+        "Website inspection failed",
       error: error.message
     });
   }
@@ -125,7 +198,10 @@ app.post("/inspect", async (req, res) => {
 
 app.post("/plan", async (req, res) => {
   try {
-    const { command, websiteUrl } = req.body;
+    const {
+      command,
+      websiteUrl
+    } = req.body;
 
     if (!command || !websiteUrl) {
       return res.status(400).json({
@@ -165,7 +241,10 @@ app.post("/plan", async (req, res) => {
       }
     });
   } catch (error) {
-    console.error("Planner API Error:", error);
+    console.error(
+      "Planner API Error:",
+      error
+    );
 
     return res.status(500).json({
       success: false,
@@ -180,17 +259,21 @@ app.post(
   "/discover-features",
   async (req, res) => {
     try {
-      const { websiteUrl } = req.body;
+      const { websiteUrl } =
+        req.body;
 
       if (!websiteUrl) {
         return res.status(400).json({
           success: false,
-          message: "websiteUrl is required"
+          message:
+            "websiteUrl is required"
         });
       }
 
       const knowledge =
-        await inspectWebsite(websiteUrl);
+        await inspectWebsite(
+          websiteUrl
+        );
 
       const featureDiscovery =
         discoverFeatures(knowledge);
@@ -219,7 +302,8 @@ app.post(
 
       return res.status(500).json({
         success: false,
-        message: "Feature discovery failed",
+        message:
+          "Feature discovery failed",
         error: error.message
       });
     }
@@ -230,17 +314,21 @@ app.post(
   "/ai-discover-features",
   async (req, res) => {
     try {
-      const { websiteUrl } = req.body;
+      const { websiteUrl } =
+        req.body;
 
       if (!websiteUrl) {
         return res.status(400).json({
           success: false,
-          message: "websiteUrl is required"
+          message:
+            "websiteUrl is required"
         });
       }
 
       const knowledge =
-        await inspectWebsite(websiteUrl);
+        await inspectWebsite(
+          websiteUrl
+        );
 
       const featureDiscovery =
         await discoverFeaturesWithAI(
@@ -283,17 +371,21 @@ app.post(
   "/generate-test-cases",
   async (req, res) => {
     try {
-      const { websiteUrl } = req.body;
+      const { websiteUrl } =
+        req.body;
 
       if (!websiteUrl) {
         return res.status(400).json({
           success: false,
-          message: "websiteUrl is required"
+          message:
+            "websiteUrl is required"
         });
       }
 
       const knowledge =
-        await inspectWebsite(websiteUrl);
+        await inspectWebsite(
+          websiteUrl
+        );
 
       const featureDiscovery =
         await discoverFeaturesWithAI(
@@ -342,17 +434,21 @@ app.post(
   "/generate-playwright-tests",
   async (req, res) => {
     try {
-      const { websiteUrl } = req.body;
+      const { websiteUrl } =
+        req.body;
 
       if (!websiteUrl) {
         return res.status(400).json({
           success: false,
-          message: "websiteUrl is required"
+          message:
+            "websiteUrl is required"
         });
       }
 
       const knowledge =
-        await inspectWebsite(websiteUrl);
+        await inspectWebsite(
+          websiteUrl
+        );
 
       const featureDiscovery =
         await discoverFeaturesWithAI(
@@ -384,7 +480,7 @@ app.post(
       });
     } catch (error) {
       console.error(
-        "Playwright Test Generation API Error:",
+        "Playwright Generation API Error:",
         error
       );
 
@@ -413,7 +509,7 @@ app.post(
       return res.json({
         success: true,
         message:
-          "Generated tests executed and reports created successfully",
+          "Generated tests executed successfully",
         data: {
           executionData,
           reports
@@ -427,7 +523,8 @@ app.post(
 
       return res.status(500).json({
         success: false,
-        message: "Test execution failed",
+        message:
+          "Test execution failed",
         error: error.message
       });
     }
@@ -438,12 +535,14 @@ app.post(
   "/run-autonomous-qa",
   async (req, res) => {
     try {
-      const { websiteUrl } = req.body;
+      const { websiteUrl } =
+        req.body;
 
       if (!websiteUrl) {
         return res.status(400).json({
           success: false,
-          message: "websiteUrl is required"
+          message:
+            "websiteUrl is required"
         });
       }
 
@@ -460,7 +559,7 @@ app.post(
       });
     } catch (error) {
       console.error(
-        "Autonomous QA Pipeline API Error:",
+        "Autonomous QA API Error:",
         error
       );
 
@@ -494,7 +593,7 @@ app.post(
       return res.json({
         success: true,
         message:
-          "Test failures analyzed and reports generated successfully",
+          "Test failures analyzed successfully",
         data: {
           executionData,
           failureAnalysis,
@@ -543,7 +642,7 @@ app.post(
       return res.json({
         success: true,
         message:
-          "Generated tests repaired and reports created successfully",
+          "Generated tests repaired successfully",
         data: {
           executionData,
           failureAnalysis,
@@ -559,7 +658,8 @@ app.post(
 
       return res.status(500).json({
         success: false,
-        message: "Test repair failed",
+        message:
+          "Test repair failed",
         error: error.message
       });
     }
@@ -581,7 +681,7 @@ app.post(
       return res.json({
         success: true,
         message:
-          "Repair validation completed and reports generated successfully",
+          "Repair validation completed successfully",
         data: {
           validationData,
           reports
@@ -607,8 +707,18 @@ app.get(
   "/qa-run-history",
   async (req, res) => {
     try {
+      const {
+        projectId,
+        status,
+        limit
+      } = req.query;
+
       const history =
-        await getQARunHistory();
+        await getQARunHistory({
+          projectId,
+          status,
+          limit
+        });
 
       return res.json({
         success: true,
@@ -618,7 +728,7 @@ app.get(
       });
     } catch (error) {
       console.error(
-        "QA Run History API Error:",
+        "QA History API Error:",
         error
       );
 
@@ -636,8 +746,13 @@ app.get(
   "/qa-run-history/latest",
   async (req, res) => {
     try {
+      const { projectId } =
+        req.query;
+
       const latestRun =
-        await getLatestQARun();
+        await getLatestQARun({
+          projectId
+        });
 
       return res.json({
         success: true,
@@ -646,11 +761,6 @@ app.get(
         data: latestRun
       });
     } catch (error) {
-      console.error(
-        "Latest QA Run API Error:",
-        error
-      );
-
       return res.status(500).json({
         success: false,
         message:
@@ -675,11 +785,6 @@ app.delete(
         data: result
       });
     } catch (error) {
-      console.error(
-        "Clear QA Run History API Error:",
-        error
-      );
-
       return res.status(500).json({
         success: false,
         message:
@@ -700,19 +805,14 @@ app.get(
       return res.json({
         success: true,
         message:
-          "QA run analytics generated successfully",
+          "QA analytics generated successfully",
         data: analytics
       });
     } catch (error) {
-      console.error(
-        "QA Run Analytics API Error:",
-        error
-      );
-
       return res.status(500).json({
         success: false,
         message:
-          "Failed to generate QA run analytics",
+          "Failed to generate QA analytics",
         error: error.message
       });
     }
@@ -734,22 +834,17 @@ app.get(
       return res.json({
         success: true,
         message:
-          "QA run analytics reports generated successfully",
+          "QA analytics reports generated successfully",
         data: {
           analytics,
           reports
         }
       });
     } catch (error) {
-      console.error(
-        "QA Run Analytics Report API Error:",
-        error
-      );
-
       return res.status(500).json({
         success: false,
         message:
-          "Failed to generate QA run analytics reports",
+          "Failed to generate analytics reports",
         error: error.message
       });
     }
@@ -797,11 +892,6 @@ app.post(
         }
       });
     } catch (error) {
-      console.error(
-        "Create QA Project API Error:",
-        error
-      );
-
       return res.status(400).json({
         success: false,
         message:
@@ -816,7 +906,10 @@ app.get(
   "/qa-projects",
   async (req, res) => {
     try {
-      const { status, search } = req.query;
+      const {
+        status,
+        search
+      } = req.query;
 
       const projects =
         await getQAProjects({
@@ -831,11 +924,6 @@ app.get(
         data: projects
       });
     } catch (error) {
-      console.error(
-        "Get QA Projects API Error:",
-        error
-      );
-
       return res.status(400).json({
         success: false,
         message:
@@ -847,13 +935,180 @@ app.get(
 );
 
 app.get(
+  "/qa-projects/:projectId/runs/latest",
+  async (req, res) => {
+    try {
+      const { projectId } =
+        req.params;
+
+      await getQAProjectById(
+        projectId
+      );
+
+      const latestRun =
+        await getLatestProjectQARun(
+          projectId
+        );
+
+      return res.json({
+        success: true,
+        message:
+          "Latest project QA run fetched successfully",
+        data: latestRun
+      });
+    } catch (error) {
+      const statusCode =
+        error.message ===
+        "QA project not found."
+          ? 404
+          : 500;
+
+      return res.status(statusCode).json({
+        success: false,
+        message:
+          "Failed to fetch latest project run",
+        error: error.message
+      });
+    }
+  }
+);
+
+app.get(
+  "/qa-projects/:projectId/runs",
+  async (req, res) => {
+    try {
+      const { projectId } =
+        req.params;
+
+      const project =
+        await getQAProjectById(
+          projectId
+        );
+
+      const history =
+        await getProjectQARuns(
+          projectId
+        );
+
+      return res.json({
+        success: true,
+        message:
+          "Project QA runs fetched successfully",
+        data: {
+          project,
+          ...history
+        }
+      });
+    } catch (error) {
+      const statusCode =
+        error.message ===
+        "QA project not found."
+          ? 404
+          : 500;
+
+      return res.status(statusCode).json({
+        success: false,
+        message:
+          "Failed to fetch project QA runs",
+        error: error.message
+      });
+    }
+  }
+);
+
+app.get(
+  "/qa-projects/:projectId/analytics",
+  async (req, res) => {
+    try {
+      const { projectId } =
+        req.params;
+
+      const project =
+        await getQAProjectById(
+          projectId
+        );
+
+      const analytics =
+        await generateProjectRunAnalytics(
+          projectId
+        );
+
+      return res.json({
+        success: true,
+        message:
+          "Project run analytics generated successfully",
+        data: {
+          project,
+          analytics
+        }
+      });
+    } catch (error) {
+      const statusCode =
+        error.message ===
+        "QA project not found."
+          ? 404
+          : 500;
+
+      return res.status(statusCode).json({
+        success: false,
+        message:
+          "Failed to generate project analytics",
+        error: error.message
+      });
+    }
+  }
+);
+
+app.delete(
+  "/qa-projects/:projectId/runs",
+  async (req, res) => {
+    try {
+      const { projectId } =
+        req.params;
+
+      await getQAProjectById(
+        projectId
+      );
+
+      const result =
+        await deleteProjectQARuns(
+          projectId
+        );
+
+      return res.json({
+        success: true,
+        message:
+          "Project QA run history deleted successfully",
+        data: result
+      });
+    } catch (error) {
+      const statusCode =
+        error.message ===
+        "QA project not found."
+          ? 404
+          : 500;
+
+      return res.status(statusCode).json({
+        success: false,
+        message:
+          "Failed to delete project runs",
+        error: error.message
+      });
+    }
+  }
+);
+
+app.get(
   "/qa-projects/:projectId",
   async (req, res) => {
     try {
-      const { projectId } = req.params;
+      const { projectId } =
+        req.params;
 
       const project =
-        await getQAProjectById(projectId);
+        await getQAProjectById(
+          projectId
+        );
 
       return res.json({
         success: true,
@@ -864,11 +1119,6 @@ app.get(
         }
       });
     } catch (error) {
-      console.error(
-        "Get QA Project API Error:",
-        error
-      );
-
       return res.status(404).json({
         success: false,
         message:
@@ -883,24 +1133,13 @@ app.patch(
   "/qa-projects/:projectId",
   async (req, res) => {
     try {
-      const { projectId } = req.params;
-
-      const {
-        name,
-        websiteUrl,
-        description,
-        status
-      } = req.body;
+      const { projectId } =
+        req.params;
 
       const project =
         await updateQAProject(
           projectId,
-          {
-            name,
-            websiteUrl,
-            description,
-            status
-          }
+          req.body
         );
 
       return res.json({
@@ -912,11 +1151,6 @@ app.patch(
         }
       });
     } catch (error) {
-      console.error(
-        "Update QA Project API Error:",
-        error
-      );
-
       const statusCode =
         error.message ===
         "QA project not found."
@@ -937,7 +1171,8 @@ app.post(
   "/qa-projects/:projectId/run",
   async (req, res) => {
     try {
-      const { projectId } = req.params;
+      const { projectId } =
+        req.params;
 
       const project =
         await validateProjectCanRun(
@@ -946,7 +1181,14 @@ app.post(
 
       const pipelineResult =
         await runAutonomousQAPipeline(
-          project.websiteUrl
+          project.websiteUrl,
+          {
+            projectId:
+              project.projectId,
+
+            projectName:
+              project.name
+          }
         );
 
       const updatedProject =
@@ -971,8 +1213,12 @@ app.post(
       );
 
       const statusCode =
-        error.message.includes("paused") ||
-        error.message.includes("archived")
+        error.message.includes(
+          "paused"
+        ) ||
+        error.message.includes(
+          "archived"
+        )
           ? 409
           : error.message ===
               "QA project not found."
@@ -993,10 +1239,13 @@ app.delete(
   "/qa-projects/:projectId",
   async (req, res) => {
     try {
-      const { projectId } = req.params;
+      const { projectId } =
+        req.params;
 
       const result =
-        await deleteQAProject(projectId);
+        await deleteQAProject(
+          projectId
+        );
 
       return res.json({
         success: true,
@@ -1005,11 +1254,6 @@ app.delete(
         data: result
       });
     } catch (error) {
-      console.error(
-        "Delete QA Project API Error:",
-        error
-      );
-
       return res.status(404).json({
         success: false,
         message:
@@ -1029,7 +1273,8 @@ app.use((req, res) => {
   });
 });
 
-const PORT = process.env.PORT || 5050;
+const PORT =
+  process.env.PORT || 5050;
 
 app.listen(PORT, () => {
   console.log(
@@ -1041,7 +1286,7 @@ app.listen(PORT, () => {
   console.log(
     `🌐 URL: http://localhost:${PORT}`
   );
-  console.log("📦 Version: 2.6.0");
+  console.log("📦 Version: 2.7.0");
   console.log(
     "⚡ AI Provider: GroqCloud"
   );
@@ -1052,49 +1297,13 @@ app.listen(PORT, () => {
     }`
   );
   console.log(
-    "🧠 Groq Planner Agent enabled"
-  );
-  console.log(
-    "📊 AI Plan Reports enabled"
-  );
-  console.log(
-    "🔎 Rule-Based Feature Discovery enabled"
-  );
-  console.log(
-    "🤖 AI Feature Discovery enabled"
-  );
-  console.log(
-    "🧪 Test Case Generator enabled"
-  );
-  console.log(
-    "🎭 Playwright Test Script Generator enabled"
-  );
-  console.log(
-    "✅ Test Executor Agent enabled"
-  );
-  console.log(
-    "🚀 Autonomous QA Pipeline enabled"
-  );
-  console.log(
-    "🧠 Failure Analysis Agent enabled"
-  );
-  console.log(
-    "🛠️ Self-Healing Test Repair Agent enabled"
-  );
-  console.log(
-    "📈 Repair Validation Agent enabled"
-  );
-  console.log(
-    "🗂️ QA Run History Agent enabled"
-  );
-  console.log(
-    "📊 QA Run Analytics Agent enabled"
-  );
-  console.log(
     "📁 QA Project Management Agent enabled"
   );
   console.log(
     "🔄 QA Project Lifecycle Agent enabled"
+  );
+  console.log(
+    "🧠 Project Run Intelligence Agent enabled"
   );
   console.log(
     "===================================="

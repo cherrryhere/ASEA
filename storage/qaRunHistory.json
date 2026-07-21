@@ -1,6 +1,120 @@
 {
   "runs": [
     {
+      "runId": "8fafe13b-9ea6-4800-b4aa-0db1d1d6e6c1",
+      "projectId": "92a4c20c-7c04-48fa-a2e6-4fa4480c6e51",
+      "projectName": "The Internet Login QA",
+      "websiteUrl": "https://the-internet.herokuapp.com/login",
+      "status": "completed",
+      "startedAt": "2026-07-21T07:45:11.380Z",
+      "completedAt": "2026-07-21T07:46:23.411Z",
+      "durationSeconds": 72.03,
+      "pipelineSummary": {
+        "pageTitle": "The Internet",
+        "totalElements": 6,
+        "totalFeatures": 2,
+        "totalTestCases": 2,
+        "generatedPlaywrightFiles": 2,
+        "totalExecutedTests": 2,
+        "passed": 0,
+        "failed": 2,
+        "skipped": 0,
+        "passRate": 0,
+        "failedTestsAnalyzed": 2
+      },
+      "reports": {
+        "featureReports": {
+          "reportId": "67f0e2ad-79fc-484c-a3a7-879e42c96c1f",
+          "markdownPath": "reports/feature-discovery-report-67f0e2ad-79fc-484c-a3a7-879e42c96c1f.md",
+          "excelPath": "reports/feature-discovery-report-67f0e2ad-79fc-484c-a3a7-879e42c96c1f.xlsx"
+        },
+        "testCaseReports": {
+          "success": true,
+          "reportId": "5faab53a-d7cd-4e33-97fe-85f78e917cd9",
+          "totalTestCases": 2,
+          "markdownPath": "reports/test-case-report-5faab53a-d7cd-4e33-97fe-85f78e917cd9.md",
+          "excelPath": "reports/test-case-report-5faab53a-d7cd-4e33-97fe-85f78e917cd9.xlsx",
+          "generatedAt": "2026-07-21T07:45:26.886Z"
+        },
+        "executionReports": {
+          "reportId": "7cc93bde-bb61-479c-a57a-a63075f4c301",
+          "markdownPath": "reports/test-execution-report-7cc93bde-bb61-479c-a57a-a63075f4c301.md",
+          "excelPath": "reports/test-execution-report-7cc93bde-bb61-479c-a57a-a63075f4c301.xlsx"
+        },
+        "failureAnalysisReports": {
+          "reportId": "6925110d-158e-4b8c-ae43-19ad3581c3bd",
+          "markdownPath": "reports/failure-analysis-report-6925110d-158e-4b8c-ae43-19ad3581c3bd.md",
+          "excelPath": "reports/failure-analysis-report-6925110d-158e-4b8c-ae43-19ad3581c3bd.xlsx"
+        }
+      },
+      "error": null
+    },
+    {
+      "runId": "bd776f75-98bd-4551-a2c2-ff880de02cc8",
+      "projectId": "92a4c20c-7c04-48fa-a2e6-4fa4480c6e51",
+      "projectName": "The Internet Login QA",
+      "websiteUrl": "https://the-internet.herokuapp.com/login",
+      "status": "completed",
+      "startedAt": "2026-07-21T07:37:16.494Z",
+      "completedAt": "2026-07-21T07:38:22.651Z",
+      "durationSeconds": 66.16,
+      "pipelineSummary": {
+        "pageTitle": "The Internet",
+        "totalElements": 6,
+        "totalFeatures": 2,
+        "totalTestCases": 2,
+        "generatedPlaywrightFiles": 2,
+        "totalExecutedTests": 2,
+        "passed": 1,
+        "failed": 0,
+        "skipped": 0,
+        "passRate": 50,
+        "failedTestsAnalyzed": 1
+      },
+      "reports": {
+        "featureReports": {
+          "reportId": "5f524ae5-2989-4365-a21d-61596e531844",
+          "markdownPath": "reports/feature-discovery-report-5f524ae5-2989-4365-a21d-61596e531844.md",
+          "excelPath": "reports/feature-discovery-report-5f524ae5-2989-4365-a21d-61596e531844.xlsx"
+        },
+        "testCaseReports": {
+          "success": true,
+          "reportId": "089e0b1a-5cb6-49e9-8c66-157be9898fee",
+          "totalTestCases": 2,
+          "markdownPath": "reports/test-case-report-089e0b1a-5cb6-49e9-8c66-157be9898fee.md",
+          "excelPath": "reports/test-case-report-089e0b1a-5cb6-49e9-8c66-157be9898fee.xlsx",
+          "generatedAt": "2026-07-21T07:37:48.993Z"
+        },
+        "executionReports": {
+          "reportId": "db0a8753-5fd6-47d0-ad6f-55afaa720975",
+          "markdownPath": "reports/test-execution-report-db0a8753-5fd6-47d0-ad6f-55afaa720975.md",
+          "excelPath": "reports/test-execution-report-db0a8753-5fd6-47d0-ad6f-55afaa720975.xlsx"
+        },
+        "failureAnalysisReports": {
+          "reportId": "827e0ca6-df9c-48d6-b6f1-e5e3055ddb7f",
+          "markdownPath": "reports/failure-analysis-report-827e0ca6-df9c-48d6-b6f1-e5e3055ddb7f.md",
+          "excelPath": "reports/failure-analysis-report-827e0ca6-df9c-48d6-b6f1-e5e3055ddb7f.xlsx"
+        }
+      },
+      "error": null
+    },
+    {
+      "runId": "f8fd3d9a-9f09-49a2-9027-448c430d5c42",
+      "projectId": "92a4c20c-7c04-48fa-a2e6-4fa4480c6e51",
+      "projectName": "The Internet Login QA",
+      "websiteUrl": "https://the-internet.herokuapp.com/login",
+      "status": "failed",
+      "startedAt": "2026-07-17T08:14:30.674Z",
+      "completedAt": "2026-07-17T08:15:04.033Z",
+      "durationSeconds": 33.36,
+      "pipelineSummary": {},
+      "reports": {},
+      "error": {
+        "message": "page.goto: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"https://the-internet.herokuapp.com/login\", waiting until \"domcontentloaded\"\u001b[22m\n",
+        "stack": "page.goto: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"https://the-internet.herokuapp.com/login\", waiting until \"domcontentloaded\"\u001b[22m\n\n    at inspectWebsite (/Users/suraaj/ASEA-Agent/agents/browserAgent.js:23:16)\n    at async runAutonomousQAPipeline (/Users/suraaj/ASEA-Agent/agents/autonomousQAAgent.js:147:7)\n    at async file:///Users/suraaj/ASEA-Agent/server.js:1183:9"
+      }
+    },
+    {
       "runId": "13855c7a-d57f-4166-b898-d50fd434e1b7",
       "websiteUrl": "https://the-internet.herokuapp.com/login",
       "status": "completed",
