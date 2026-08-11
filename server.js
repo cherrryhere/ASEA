@@ -52,6 +52,9 @@ import {
   generateProjectRunAnalyticsReports
 } from "./agents/projectRunAnalyticsReportAgent.js";
 
+import { generateQAExecutiveSummary } from "./agents/qaExecutiveSummaryAgent.js";
+import { generateQAExecutiveSummaryReports } from "./agents/qaExecutiveSummaryReportAgent.js";
+
 dotenv.config();
 
 const app = express();
@@ -63,7 +66,7 @@ app.get("/", (req, res) => {
   return res.json({
     success: true,
     message: "ASEA Agent Backend is running",
-    version: "2.8.0",
+    version: "2.9.0",
     aiProvider: "GroqCloud",
     model:
       process.env.GROQ_MODEL ||
@@ -75,7 +78,7 @@ app.get("/health", (req, res) => {
   return res.json({
     success: true,
     status: "healthy",
-    version: "2.8.0",
+    version: "2.9.0",
     timestamp: new Date().toISOString()
   });
 });
@@ -1169,6 +1172,72 @@ app.delete(
   }
 );
 
+app.get(
+  "/qa-executive-summary",
+  async (req, res) => {
+    try {
+      const summary =
+        await generateQAExecutiveSummary();
+
+      return res.json({
+        success: true,
+        message:
+          "Executive QA summary generated successfully",
+        data: summary
+      });
+    } catch (error) {
+      console.error(
+        "Executive QA Summary API Error:",
+        error
+      );
+
+      return res.status(500).json({
+        success: false,
+        message:
+          "Failed to generate executive QA summary",
+        error: error.message
+      });
+    }
+  }
+);
+
+app.get(
+  "/qa-executive-summary/report",
+  async (req, res) => {
+    try {
+      const summary =
+        await generateQAExecutiveSummary();
+
+      const reports =
+        await generateQAExecutiveSummaryReports(
+          summary
+        );
+
+      return res.json({
+        success: true,
+        message:
+          "Executive QA summary reports generated successfully",
+        data: {
+          summary,
+          reports
+        }
+      });
+    } catch (error) {
+      console.error(
+        "Executive QA Summary Report API Error:",
+        error
+      );
+
+      return res.status(500).json({
+        success: false,
+        message:
+          "Failed to generate executive QA summary reports",
+        error: error.message
+      });
+    }
+  }
+);
+
 app.use((req, res) => {
   return res.status(404).json({
     success: false,
@@ -1191,7 +1260,7 @@ app.listen(PORT, () => {
   console.log(
     `🌐 URL: http://localhost:${PORT}`
   );
-  console.log("📦 Version: 2.8.0");
+  console.log("📦 Version: 2.9.0");
   console.log(
     "⚡ AI Provider: GroqCloud"
   );
@@ -1212,6 +1281,9 @@ app.listen(PORT, () => {
   );
   console.log(
     "📊 Project Analytics Report Agent enabled"
+  );
+  console.log(
+    "📌 Executive QA Summary Agent enabled"
   );
   console.log(
     "===================================="

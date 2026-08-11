@@ -1,6 +1,6 @@
 {
   "name": "asea-agent",
-  "version": "2.8.0",
+  "version": "2.9.0",
   "description": "ASEA - Autonomous Software Engineering Agent",
   "type": "module",
   "main": "server.js",
@@ -35,7 +35,8 @@
     "QA Analytics",
     "QA Project Management",
     "QA Project Lifecycle",
-    "Project Run Intelligence"
+    "Project Run Intelligence",
+    "Executive QA Summary"
   ],
   "author": "Suraaj Gibs",
   "license": "MIT",
