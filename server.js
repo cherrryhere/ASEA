@@ -2,85 +2,26 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 
-import {
-  inspectWebsite
-} from "./agents/browserAgent.js";
-
-import {
-  generateInspectionReport
-} from "./agents/reportAgent.js";
-
-import {
-  generateExcelReport
-} from "./agents/excelReportAgent.js";
-
-import {
-  generateEngineeringPlan
-} from "./agents/plannerAgent.js";
-
-import {
-  generateAIPlanReports
-} from "./agents/aiPlanReportAgent.js";
-
-import {
-  discoverFeatures
-} from "./agents/featureDiscoveryAgent.js";
-
-import {
-  generateFeatureReports
-} from "./agents/featureReportAgent.js";
-
-import {
-  discoverFeaturesWithAI
-} from "./agents/aiFeatureDiscoveryAgent.js";
-
-import {
-  generateTestCasesFromFeatures
-} from "./agents/testGeneratorAgent.js";
-
-import {
-  generateTestCaseReports
-} from "./agents/testCaseReportAgent.js";
-
-import {
-  generatePlaywrightScripts
-} from "./agents/playwrightTestGeneratorAgent.js";
-
-import {
-  executeGeneratedTests
-} from "./agents/testExecutorAgent.js";
-
-import {
-  generateTestExecutionReports
-} from "./agents/testExecutionReportAgent.js";
-
-import {
-  runAutonomousQAPipeline
-} from "./agents/autonomousQAAgent.js";
-
-import {
-  analyzeTestFailures
-} from "./agents/failureAnalysisAgent.js";
-
-import {
-  generateFailureAnalysisReports
-} from "./agents/failureAnalysisReportAgent.js";
-
-import {
-  repairGeneratedTests
-} from "./agents/testRepairAgent.js";
-
-import {
-  generateTestRepairReports
-} from "./agents/testRepairReportAgent.js";
-
-import {
-  validateRepairResults
-} from "./agents/repairValidationAgent.js";
-
-import {
-  generateRepairValidationReports
-} from "./agents/repairValidationReportAgent.js";
+import { inspectWebsite } from "./agents/browserAgent.js";
+import { generateInspectionReport } from "./agents/reportAgent.js";
+import { generateExcelReport } from "./agents/excelReportAgent.js";
+import { generateEngineeringPlan } from "./agents/plannerAgent.js";
+import { generateAIPlanReports } from "./agents/aiPlanReportAgent.js";
+import { discoverFeatures } from "./agents/featureDiscoveryAgent.js";
+import { generateFeatureReports } from "./agents/featureReportAgent.js";
+import { discoverFeaturesWithAI } from "./agents/aiFeatureDiscoveryAgent.js";
+import { generateTestCasesFromFeatures } from "./agents/testGeneratorAgent.js";
+import { generateTestCaseReports } from "./agents/testCaseReportAgent.js";
+import { generatePlaywrightScripts } from "./agents/playwrightTestGeneratorAgent.js";
+import { executeGeneratedTests } from "./agents/testExecutorAgent.js";
+import { generateTestExecutionReports } from "./agents/testExecutionReportAgent.js";
+import { runAutonomousQAPipeline } from "./agents/autonomousQAAgent.js";
+import { analyzeTestFailures } from "./agents/failureAnalysisAgent.js";
+import { generateFailureAnalysisReports } from "./agents/failureAnalysisReportAgent.js";
+import { repairGeneratedTests } from "./agents/testRepairAgent.js";
+import { generateTestRepairReports } from "./agents/testRepairReportAgent.js";
+import { validateRepairResults } from "./agents/repairValidationAgent.js";
+import { generateRepairValidationReports } from "./agents/repairValidationReportAgent.js";
 
 import {
   getQARunHistory,
@@ -91,13 +32,8 @@ import {
   clearQARunHistory
 } from "./agents/qaRunHistoryAgent.js";
 
-import {
-  generateQARunAnalytics
-} from "./agents/qaAnalyticsAgent.js";
-
-import {
-  generateQAAnalyticsReports
-} from "./agents/qaAnalyticsReportAgent.js";
+import { generateQARunAnalytics } from "./agents/qaAnalyticsAgent.js";
+import { generateQAAnalyticsReports } from "./agents/qaAnalyticsReportAgent.js";
 
 import {
   createQAProject,
@@ -110,9 +46,11 @@ import {
   getAllowedProjectStatuses
 } from "./agents/qaProjectAgent.js";
 
+import { generateProjectRunAnalytics } from "./agents/projectRunAnalyticsAgent.js";
+
 import {
-  generateProjectRunAnalytics
-} from "./agents/projectRunAnalyticsAgent.js";
+  generateProjectRunAnalyticsReports
+} from "./agents/projectRunAnalyticsReportAgent.js";
 
 dotenv.config();
 
@@ -124,9 +62,8 @@ app.use(express.json());
 app.get("/", (req, res) => {
   return res.json({
     success: true,
-    message:
-      "ASEA Agent Backend is running",
-    version: "2.7.0",
+    message: "ASEA Agent Backend is running",
+    version: "2.8.0",
     aiProvider: "GroqCloud",
     model:
       process.env.GROQ_MODEL ||
@@ -138,9 +75,8 @@ app.get("/health", (req, res) => {
   return res.json({
     success: true,
     status: "healthy",
-    version: "2.7.0",
-    timestamp:
-      new Date().toISOString()
+    version: "2.8.0",
+    timestamp: new Date().toISOString()
   });
 });
 
@@ -151,8 +87,7 @@ app.post("/inspect", async (req, res) => {
     if (!websiteUrl) {
       return res.status(400).json({
         success: false,
-        message:
-          "websiteUrl is required"
+        message: "websiteUrl is required"
       });
     }
 
@@ -160,14 +95,10 @@ app.post("/inspect", async (req, res) => {
       await inspectWebsite(websiteUrl);
 
     const markdownReport =
-      await generateInspectionReport(
-        knowledge
-      );
+      await generateInspectionReport(knowledge);
 
     const excelReport =
-      await generateExcelReport(
-        knowledge
-      );
+      await generateExcelReport(knowledge);
 
     return res.json({
       success: true,
@@ -182,15 +113,11 @@ app.post("/inspect", async (req, res) => {
       }
     });
   } catch (error) {
-    console.error(
-      "Inspect API Error:",
-      error
-    );
+    console.error("Inspect API Error:", error);
 
     return res.status(500).json({
       success: false,
-      message:
-        "Website inspection failed",
+      message: "Website inspection failed",
       error: error.message
     });
   }
@@ -231,7 +158,7 @@ app.post("/plan", async (req, res) => {
     return res.json({
       success: true,
       message:
-        "AI engineering plan and reports generated successfully",
+        "AI engineering plan generated successfully",
       data: {
         command,
         websiteUrl,
@@ -241,10 +168,7 @@ app.post("/plan", async (req, res) => {
       }
     });
   } catch (error) {
-    console.error(
-      "Planner API Error:",
-      error
-    );
+    console.error("Planner API Error:", error);
 
     return res.status(500).json({
       success: false,
@@ -255,80 +179,68 @@ app.post("/plan", async (req, res) => {
   }
 });
 
-app.post(
-  "/discover-features",
-  async (req, res) => {
-    try {
-      const { websiteUrl } =
-        req.body;
+app.post("/discover-features", async (req, res) => {
+  try {
+    const { websiteUrl } = req.body;
 
-      if (!websiteUrl) {
-        return res.status(400).json({
-          success: false,
-          message:
-            "websiteUrl is required"
-        });
-      }
-
-      const knowledge =
-        await inspectWebsite(
-          websiteUrl
-        );
-
-      const featureDiscovery =
-        discoverFeatures(knowledge);
-
-      const reports =
-        await generateFeatureReports(
-          featureDiscovery
-        );
-
-      return res.json({
-        success: true,
-        message:
-          "Features discovered and reports generated successfully",
-        data: {
-          websiteUrl,
-          knowledge,
-          featureDiscovery,
-          reports
-        }
-      });
-    } catch (error) {
-      console.error(
-        "Feature Discovery API Error:",
-        error
-      );
-
-      return res.status(500).json({
+    if (!websiteUrl) {
+      return res.status(400).json({
         success: false,
-        message:
-          "Feature discovery failed",
-        error: error.message
+        message: "websiteUrl is required"
       });
     }
+
+    const knowledge =
+      await inspectWebsite(websiteUrl);
+
+    const featureDiscovery =
+      discoverFeatures(knowledge);
+
+    const reports =
+      await generateFeatureReports(
+        featureDiscovery
+      );
+
+    return res.json({
+      success: true,
+      message:
+        "Features discovered successfully",
+      data: {
+        websiteUrl,
+        knowledge,
+        featureDiscovery,
+        reports
+      }
+    });
+  } catch (error) {
+    console.error(
+      "Feature Discovery API Error:",
+      error
+    );
+
+    return res.status(500).json({
+      success: false,
+      message: "Feature discovery failed",
+      error: error.message
+    });
   }
-);
+});
 
 app.post(
   "/ai-discover-features",
   async (req, res) => {
     try {
-      const { websiteUrl } =
-        req.body;
+      const { websiteUrl } = req.body;
 
       if (!websiteUrl) {
         return res.status(400).json({
           success: false,
-          message:
-            "websiteUrl is required"
+          message: "websiteUrl is required"
         });
       }
 
       const knowledge =
-        await inspectWebsite(
-          websiteUrl
-        );
+        await inspectWebsite(websiteUrl);
 
       const featureDiscovery =
         await discoverFeaturesWithAI(
@@ -343,7 +255,7 @@ app.post(
       return res.json({
         success: true,
         message:
-          "AI features discovered and reports generated successfully",
+          "AI features discovered successfully",
         data: {
           websiteUrl,
           knowledge,
@@ -371,21 +283,17 @@ app.post(
   "/generate-test-cases",
   async (req, res) => {
     try {
-      const { websiteUrl } =
-        req.body;
+      const { websiteUrl } = req.body;
 
       if (!websiteUrl) {
         return res.status(400).json({
           success: false,
-          message:
-            "websiteUrl is required"
+          message: "websiteUrl is required"
         });
       }
 
       const knowledge =
-        await inspectWebsite(
-          websiteUrl
-        );
+        await inspectWebsite(websiteUrl);
 
       const featureDiscovery =
         await discoverFeaturesWithAI(
@@ -405,7 +313,7 @@ app.post(
       return res.json({
         success: true,
         message:
-          "Test cases generated and reports created successfully",
+          "Test cases generated successfully",
         data: {
           websiteUrl,
           knowledge,
@@ -434,21 +342,17 @@ app.post(
   "/generate-playwright-tests",
   async (req, res) => {
     try {
-      const { websiteUrl } =
-        req.body;
+      const { websiteUrl } = req.body;
 
       if (!websiteUrl) {
         return res.status(400).json({
           success: false,
-          message:
-            "websiteUrl is required"
+          message: "websiteUrl is required"
         });
       }
 
       const knowledge =
-        await inspectWebsite(
-          websiteUrl
-        );
+        await inspectWebsite(websiteUrl);
 
       const featureDiscovery =
         await discoverFeaturesWithAI(
@@ -469,7 +373,7 @@ app.post(
       return res.json({
         success: true,
         message:
-          "Playwright test scripts generated successfully",
+          "Playwright tests generated successfully",
         data: {
           websiteUrl,
           knowledge,
@@ -523,8 +427,7 @@ app.post(
 
       return res.status(500).json({
         success: false,
-        message:
-          "Test execution failed",
+        message: "Test execution failed",
         error: error.message
       });
     }
@@ -535,14 +438,12 @@ app.post(
   "/run-autonomous-qa",
   async (req, res) => {
     try {
-      const { websiteUrl } =
-        req.body;
+      const { websiteUrl } = req.body;
 
       if (!websiteUrl) {
         return res.status(400).json({
           success: false,
-          message:
-            "websiteUrl is required"
+          message: "websiteUrl is required"
         });
       }
 
@@ -601,15 +502,9 @@ app.post(
         }
       });
     } catch (error) {
-      console.error(
-        "Failure Analysis API Error:",
-        error
-      );
-
       return res.status(500).json({
         success: false,
-        message:
-          "Failure analysis failed",
+        message: "Failure analysis failed",
         error: error.message
       });
     }
@@ -651,15 +546,9 @@ app.post(
         }
       });
     } catch (error) {
-      console.error(
-        "Test Repair API Error:",
-        error
-      );
-
       return res.status(500).json({
         success: false,
-        message:
-          "Test repair failed",
+        message: "Test repair failed",
         error: error.message
       });
     }
@@ -688,11 +577,6 @@ app.post(
         }
       });
     } catch (error) {
-      console.error(
-        "Repair Validation API Error:",
-        error
-      );
-
       return res.status(500).json({
         success: false,
         message:
@@ -727,11 +611,6 @@ app.get(
         data: history
       });
     } catch (error) {
-      console.error(
-        "QA History API Error:",
-        error
-      );
-
       return res.status(500).json({
         success: false,
         message:
@@ -746,8 +625,7 @@ app.get(
   "/qa-run-history/latest",
   async (req, res) => {
     try {
-      const { projectId } =
-        req.query;
+      const { projectId } = req.query;
 
       const latestRun =
         await getLatestQARun({
@@ -938,12 +816,9 @@ app.get(
   "/qa-projects/:projectId/runs/latest",
   async (req, res) => {
     try {
-      const { projectId } =
-        req.params;
+      const { projectId } = req.params;
 
-      await getQAProjectById(
-        projectId
-      );
+      await getQAProjectById(projectId);
 
       const latestRun =
         await getLatestProjectQARun(
@@ -977,18 +852,13 @@ app.get(
   "/qa-projects/:projectId/runs",
   async (req, res) => {
     try {
-      const { projectId } =
-        req.params;
+      const { projectId } = req.params;
 
       const project =
-        await getQAProjectById(
-          projectId
-        );
+        await getQAProjectById(projectId);
 
       const history =
-        await getProjectQARuns(
-          projectId
-        );
+        await getProjectQARuns(projectId);
 
       return res.json({
         success: true,
@@ -1017,16 +887,65 @@ app.get(
 );
 
 app.get(
+  "/qa-projects/:projectId/analytics/report",
+  async (req, res) => {
+    try {
+      const { projectId } = req.params;
+
+      const project =
+        await getQAProjectById(projectId);
+
+      const analytics =
+        await generateProjectRunAnalytics(
+          projectId
+        );
+
+      const reports =
+        await generateProjectRunAnalyticsReports({
+          project,
+          analytics
+        });
+
+      return res.json({
+        success: true,
+        message:
+          "Project analytics reports generated successfully",
+        data: {
+          project,
+          analytics,
+          reports
+        }
+      });
+    } catch (error) {
+      console.error(
+        "Project Analytics Report API Error:",
+        error
+      );
+
+      const statusCode =
+        error.message ===
+        "QA project not found."
+          ? 404
+          : 500;
+
+      return res.status(statusCode).json({
+        success: false,
+        message:
+          "Failed to generate project analytics reports",
+        error: error.message
+      });
+    }
+  }
+);
+
+app.get(
   "/qa-projects/:projectId/analytics",
   async (req, res) => {
     try {
-      const { projectId } =
-        req.params;
+      const { projectId } = req.params;
 
       const project =
-        await getQAProjectById(
-          projectId
-        );
+        await getQAProjectById(projectId);
 
       const analytics =
         await generateProjectRunAnalytics(
@@ -1063,12 +982,9 @@ app.delete(
   "/qa-projects/:projectId/runs",
   async (req, res) => {
     try {
-      const { projectId } =
-        req.params;
+      const { projectId } = req.params;
 
-      await getQAProjectById(
-        projectId
-      );
+      await getQAProjectById(projectId);
 
       const result =
         await deleteProjectQARuns(
@@ -1102,13 +1018,10 @@ app.get(
   "/qa-projects/:projectId",
   async (req, res) => {
     try {
-      const { projectId } =
-        req.params;
+      const { projectId } = req.params;
 
       const project =
-        await getQAProjectById(
-          projectId
-        );
+        await getQAProjectById(projectId);
 
       return res.json({
         success: true,
@@ -1133,8 +1046,7 @@ app.patch(
   "/qa-projects/:projectId",
   async (req, res) => {
     try {
-      const { projectId } =
-        req.params;
+      const { projectId } = req.params;
 
       const project =
         await updateQAProject(
@@ -1171,8 +1083,7 @@ app.post(
   "/qa-projects/:projectId/run",
   async (req, res) => {
     try {
-      const { projectId } =
-        req.params;
+      const { projectId } = req.params;
 
       const project =
         await validateProjectCanRun(
@@ -1185,7 +1096,6 @@ app.post(
           {
             projectId:
               project.projectId,
-
             projectName:
               project.name
           }
@@ -1213,12 +1123,8 @@ app.post(
       );
 
       const statusCode =
-        error.message.includes(
-          "paused"
-        ) ||
-        error.message.includes(
-          "archived"
-        )
+        error.message.includes("paused") ||
+        error.message.includes("archived")
           ? 409
           : error.message ===
               "QA project not found."
@@ -1239,8 +1145,7 @@ app.delete(
   "/qa-projects/:projectId",
   async (req, res) => {
     try {
-      const { projectId } =
-        req.params;
+      const { projectId } = req.params;
 
       const result =
         await deleteQAProject(
@@ -1286,7 +1191,7 @@ app.listen(PORT, () => {
   console.log(
     `🌐 URL: http://localhost:${PORT}`
   );
-  console.log("📦 Version: 2.7.0");
+  console.log("📦 Version: 2.8.0");
   console.log(
     "⚡ AI Provider: GroqCloud"
   );
@@ -1304,6 +1209,9 @@ app.listen(PORT, () => {
   );
   console.log(
     "🧠 Project Run Intelligence Agent enabled"
+  );
+  console.log(
+    "📊 Project Analytics Report Agent enabled"
   );
   console.log(
     "===================================="
