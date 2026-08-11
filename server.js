@@ -55,6 +55,13 @@ import {
 import { generateQAExecutiveSummary } from "./agents/qaExecutiveSummaryAgent.js";
 import { generateQAExecutiveSummaryReports } from "./agents/qaExecutiveSummaryReportAgent.js";
 
+import {
+  getAPICatalog,
+  generatePlatformReadiness
+} from "./agents/platformReadinessAgent.js";
+
+import { generatePlatformReadinessReports } from "./agents/platformReadinessReportAgent.js";
+
 dotenv.config();
 
 const app = express();
@@ -66,11 +73,13 @@ app.get("/", (req, res) => {
   return res.json({
     success: true,
     message: "ASEA Agent Backend is running",
-    version: "2.9.0",
+    version: "3.0.0",
     aiProvider: "GroqCloud",
     model:
       process.env.GROQ_MODEL ||
-      "openai/gpt-oss-120b"
+      "openai/gpt-oss-120b",
+    stage:
+      "SaaS-Ready Backend Stabilization"
   });
 });
 
@@ -78,10 +87,81 @@ app.get("/health", (req, res) => {
   return res.json({
     success: true,
     status: "healthy",
-    version: "2.9.0",
+    version: "3.0.0",
     timestamp: new Date().toISOString()
   });
 });
+
+app.get("/api-catalog", (req, res) => {
+  return res.json({
+    success: true,
+    message: "API catalog fetched successfully",
+    data: getAPICatalog()
+  });
+});
+
+app.get("/platform-readiness", async (req, res) => {
+  try {
+    const readiness =
+      await generatePlatformReadiness();
+
+    return res.json({
+      success: true,
+      message:
+        "Platform readiness generated successfully",
+      data: readiness
+    });
+  } catch (error) {
+    console.error(
+      "Platform Readiness API Error:",
+      error
+    );
+
+    return res.status(500).json({
+      success: false,
+      message:
+        "Failed to generate platform readiness",
+      error: error.message
+    });
+  }
+});
+
+app.get(
+  "/platform-readiness/report",
+  async (req, res) => {
+    try {
+      const readiness =
+        await generatePlatformReadiness();
+
+      const reports =
+        await generatePlatformReadinessReports(
+          readiness
+        );
+
+      return res.json({
+        success: true,
+        message:
+          "Platform readiness reports generated successfully",
+        data: {
+          readiness,
+          reports
+        }
+      });
+    } catch (error) {
+      console.error(
+        "Platform Readiness Report API Error:",
+        error
+      );
+
+      return res.status(500).json({
+        success: false,
+        message:
+          "Failed to generate platform readiness reports",
+        error: error.message
+      });
+    }
+  }
+);
 
 app.post("/inspect", async (req, res) => {
   try {
@@ -1260,7 +1340,7 @@ app.listen(PORT, () => {
   console.log(
     `🌐 URL: http://localhost:${PORT}`
   );
-  console.log("📦 Version: 2.9.0");
+  console.log("📦 Version: 3.0.0");
   console.log(
     "⚡ AI Provider: GroqCloud"
   );
@@ -1284,6 +1364,9 @@ app.listen(PORT, () => {
   );
   console.log(
     "📌 Executive QA Summary Agent enabled"
+  );
+  console.log(
+    "🚦 Platform Readiness Agent enabled"
   );
   console.log(
     "===================================="
